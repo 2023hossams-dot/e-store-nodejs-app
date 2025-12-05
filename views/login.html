@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo">🛍️ متجرك الإلكتروني</div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" style="min-height: 80vh; display: flex; align-items: center; justify-content: center;">
+    <div class="card" style="max-width: 400px; width: 100%;">
+      <h2 style="text-align: center; margin-bottom: 2rem;">تسجيل الدخول</h2>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label>البريد الإلكتروني</label>
+          <input type="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+          <label>كلمة المرور</label>
+          <input type="password" name="password" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%;">دخول</button>
+      </form>
+
+      <p style="text-align: center; margin-top: 1.5rem;">
+        ليس لديك حساب؟ <a href="/register">سجل الآن</a>
+      </p>
+    </div>
+  </main>
+
+  <script src="/js/main.js"></script>
+  <script>
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = document.querySelector('input[name="email"]').value;
+      const password = document.querySelector('input[name="password"]').value;
+
+      try {
+        UI.showLoader('جاري تسجيل الدخول...');
+        const data = await Auth.login(email, password);
+        UI.hideLoader();
+
+        if (data.success) {
+          UI.showAlert('تم تسجيل الدخول بنجاح', 'success');
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 1500);
+        }
+      } catch (error) {
+        UI.hideLoader();
+        UI.showAlert(error.message, 'error');
+      }
+    });
+  </script>
+</body>
+</html>

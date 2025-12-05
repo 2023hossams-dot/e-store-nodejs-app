@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> - متجرك الإلكتروني</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo">🛍️ متجرك الإلكتروني</div>
+        <ul class="nav-links">
+          <li><a href="/">الرئيسية</a></li>
+          <li><a href="/products">المنتجات</a></li>
+          <li><a href="/cart">السلة (<span id="cart-count">0</span>)</a></li>
+          <% if (user) { %>
+            <li><a href="/account">حسابي</a></li>
+            <li><a href="/orders">طلباتي</a></li>
+            <li><a href="/logout">تسجيل الخروج</a></li>
+          <% } else { %>
+            <li><a href="/login">دخول</a></li>
+            <li><a href="/register" class="btn btn-primary btn-sm">تسجيل</a></li>
+          <% } %>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <% if (typeof error !== 'undefined') { %>
+      <div class="alert alert-error"><%= error %></div>
+    <% } %>
+    <% if (typeof success !== 'undefined') { %>
+      <div class="alert alert-success"><%= success %></div>
+    <% } %>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>عن المتجر</h4>
+          <p>متجر إلكتروني حديث يوفر أفضل المنتجات بأسعار تنافسية.</p>
+        </div>
+        <div class="footer-section">
+          <h4>روابط سريعة</h4>
+          <a href="/products">المنتجات</a>
+          <a href="/about">عنا</a>
+          <a href="/contact">اتصل بنا</a>
+        </div>
+        <div class="footer-section">
+          <h4>السياسات</h4>
+          <a href="/privacy">سياسة الخصوصية</a>
+          <a href="/terms">شروط الخدمة</a>
+          <a href="/returns">سياسة الإرجاع</a>
+        </div>
+        <div class="footer-section">
+          <h4>تواصل معنا</h4>
+          <p>📧 info@store.com</p>
+          <p>📞 +966 50 000 0000</p>
+          <p>📍 المملكة العربية السعودية</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 متجرك الإلكتروني. جميع الحقوق محفوظة.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

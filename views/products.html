@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المنتجات</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="/" class="logo">
+                    <i class="fas fa-shopping-cart"></i> المتجر
+                </a>
+            </div>
+            <ul class="navbar-menu">
+                <li><a href="/">الرئيسية</a></li>
+                <li><a href="/products">المنتجات</a></li>
+                <li><a href="/cart" class="cart-link">
+                    <i class="fas fa-shopping-cart"></i> السلة <span class="cart-count">0</span>
+                </a></li>
+                <li><a href="/login">دخول</a></li>
+                <li><a href="/register">تسجيل</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Products Page -->
+    <div class="container products-page">
+        <h1>المنتجات</h1>
+        
+        <!-- Filters -->
+        <div class="filters">
+            <div class="filter-group">
+                <label>الفئة:</label>
+                <select id="categoryFilter">
+                    <option value="">جميع الفئات</option>
+                    <option value="الإلكترونيات">الإلكترونيات</option>
+                    <option value="الملابس">الملابس</option>
+                    <option value="الكتب">الكتب</option>
+                    <option value="الأثاث">الأثاث</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label>الترتيب:</label>
+                <select id="sortFilter">
+                    <option value="">الأحدث</option>
+                    <option value="price-asc">السعر: الأقل أولاً</option>
+                    <option value="price-desc">السعر: الأعلى أولاً</option>
+                    <option value="rating">الأفضل تقييماً</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>النطاق السعري:</label>
+                <input type="range" id="priceFilter" min="0" max="10000" value="10000">
+                <span id="priceValue">10000</span>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="productsGrid">
+            <!-- سيتم تحميل المنتجات هنا -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>عن المتجر</h4>
+                    <p>متجر إلكتروني حديث يوفر أفضل المنتجات للعملاء</p>
+                </div>
+                <div class="footer-section">
+                    <h4>روابط سريعة</h4>
+                    <ul>
+                        <li><a href="/">الرئيسية</a></li>
+                        <li><a href="/products">المنتجات</a></li>
+                        <li><a href="/about">من نحن</a></li>
+                        <li><a href="/contact">اتصل بنا</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>تابعنا</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 جميع الحقوق محفوظة. متجرنا الإلكتروني</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/products.js"></script>
+</body>
+</html>

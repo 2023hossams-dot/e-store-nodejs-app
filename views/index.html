@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - متجرك الإلكتروني</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="/" class="logo">
+                    <i class="fas fa-shopping-cart"></i> المتجر
+                </a>
+            </div>
+            <ul class="navbar-menu">
+                <li><a href="/">الرئيسية</a></li>
+                <li><a href="/products">المنتجات</a></li>
+                <li><a href="/cart" class="cart-link">
+                    <i class="fas fa-shopping-cart"></i> السلة <span class="cart-count">0</span>
+                </a></li>
+                <li><a href="/login">دخول</a></li>
+                <li><a href="/register">تسجيل</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>مرحباً بك في متجرنا الإلكتروني</h1>
+            <p>أفضل المنتجات بأسعار منافسة</p>
+            <a href="/products" class="btn btn-primary">تصفح المنتجات</a>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="featured-products">
+        <div class="container">
+            <h2>المنتجات المميزة</h2>
+            <div class="products-grid" id="productsGrid">
+                <!-- سيتم تحميل المنتجات هنا -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="categories">
+        <div class="container">
+            <h2>الفئات</h2>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <i class="fas fa-laptop"></i>
+                    <h3>الإلكترونيات</h3>
+                </div>
+                <div class="category-card">
+                    <i class="fas fa-shirt"></i>
+                    <h3>الملابس</h3>
+                </div>
+                <div class="category-card">
+                    <i class="fas fa-book"></i>
+                    <h3>الكتب</h3>
+                </div>
+                <div class="category-card">
+                    <i class="fas fa-chair"></i>
+                    <h3>الأثاث</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>عن المتجر</h4>
+                    <p>متجر إلكتروني حديث يوفر أفضل المنتجات للعملاء</p>
+                </div>
+                <div class="footer-section">
+                    <h4>روابط سريعة</h4>
+                    <ul>
+                        <li><a href="/">الرئيسية</a></li>
+                        <li><a href="/products">المنتجات</a></li>
+                        <li><a href="/about">من نحن</a></li>
+                        <li><a href="/contact">اتصل بنا</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>تابعنا</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 جميع الحقوق محفوظة. متجرنا الإلكتروني</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>
