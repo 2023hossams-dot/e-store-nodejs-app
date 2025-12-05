@@ -45,17 +45,8 @@ exports.authorize = (...roles) => {
   };
 };
 
-// Middleware to check if user is admin
-exports.isAdmin = (req, res, next) => {
-  if (req.user && req.user.role === 'admin') {
-    next();
-  } else {
-    return res.status(403).json({
-      success: false,
-      message: 'هذا المورد مخصص للمسؤولين فقط'
-    });
-  }
-};
+// Note: `isAdmin(permission)` is defined later to check admin permissions.
+// The simple role-checking middleware was removed to avoid duplicate exports.
 
 // Middleware to check if user is authenticated
 exports.isAuth = (req, res, next) => {

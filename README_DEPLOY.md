@@ -49,3 +49,4 @@ firebase deploy --only hosting
 - ملف `firebase.json` هنا يقوم بإعادة توجيه جميع طلبات `/api/**` إلى خدمة Cloud Run المسماة `e-store-app`.
 - قبل النشر تأكد من وضع متغيرات البيئة الحقيقية عبر Secret Manager أو إعدادات Cloud Run console.
 - إذا كنت تفضل Vercel أو Render أو Heroku فملف `Dockerfile` و `Procfile` جاهزان.
+
