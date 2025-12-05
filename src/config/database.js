@@ -1,17 +1,34 @@
 const mongoose = require('mongoose');
+const initializeAdmin = require('./adminInit');
 
 const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/estore', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+  const uri = process.env.MONGODB_URI;
+  if (!uri) {
+    console.warn('⚠️  MONGODB_URI غير معرف — سيتم تجاوز الاتصال بقاعدة البيانات (مفيد للاختبار المحلي).');
+    return null;
+  }
 
-    console.log(`✓ MongoDB Connected: ${conn.connection.host}`);
+  try {
+    const conn = await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+    console.log('✓ MongoDB متصل بنجاح');
+
+    // Initialize default admin if applicable
+    if (typeof initializeAdmin === 'function') {
+      try {
+        await initializeAdmin();
+      } catch (err) {
+        console.warn('⚠️ خطأ أثناء تهيئة المشرف الافتراضي:', err.message);
+      }
+    }
+
     return conn;
   } catch (error) {
-    console.error(`✗ Error connecting to MongoDB: ${error.message}`);
-    process.exit(1);
+    console.error('✗ خطأ في الاتصال بـ MongoDB:', error.message);
+    // Do not exit process here to allow dev/test without DB
+    return null;
   }
 };
 

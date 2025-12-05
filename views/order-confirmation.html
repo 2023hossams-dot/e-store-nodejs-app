@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تأكيد الطلب - متجرك الإلكتروني</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .confirmation-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .success-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .success-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      animation: scaleIn 0.5s ease-in-out;
+    }
+
+    @keyframes scaleIn {
+      from {
+        transform: scale(0);
+      }
+      to {
+        transform: scale(1);
+      }
+    }
+
+    .success-title {
+      font-size: 2rem;
+      color: #4caf50;
+      margin: 0;
+    }
+
+    .success-message {
+      color: #666;
+      margin-top: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .order-number {
+      background: #f5f7fa;
+      padding: 1.5rem;
+      border-radius: 8px;
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .order-number-label {
+      color: #999;
+      font-size: 0.9rem;
+    }
+
+    .order-number-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #667eea;
+      margin-top: 0.5rem;
+      font-family: 'Courier New', monospace;
+    }
+
+    .confirmation-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      color: #333;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #667eea;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      color: #666;
+      font-weight: 600;
+    }
+
+    .info-value {
+      color: #333;
+      text-align: left;
+    }
+
+    .order-items {
+      margin-top: 1.5rem;
+    }
+
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .order-item:last-child {
+      border-bottom: none;
+    }
+
+    .item-info {
+      flex: 1;
+    }
+
+    .item-name {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 0.25rem;
+    }
+
+    .item-qty {
+      color: #999;
+      font-size: 0.9rem;
+    }
+
+    .item-price {
+      font-weight: 700;
+      color: #667eea;
+    }
+
+    .timeline {
+      position: relative;
+      padding: 2rem 0;
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      right: 19px;
+      top: 40px;
+      width: 2px;
+      height: calc(100% + 40px);
+      background: #ddd;
+    }
+
+    .timeline-item:last-child::before {
+      display: none;
+    }
+
+    .timeline-dot {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #667eea;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .timeline-dot.completed {
+      background: #4caf50;
+    }
+
+    .timeline-dot.pending {
+      background: #ffc107;
+    }
+
+    .timeline-content {
+      flex: 1;
+    }
+
+    .timeline-title {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline-date {
+      color: #999;
+      font-size: 0.9rem;
+    }
+
+    .timeline-description {
+      color: #666;
+      margin-top: 0.5rem;
+    }
+
+    .summary-table {
+      width: 100%;
+      margin-top: 1.5rem;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .summary-row.total {
+      padding: 1rem 0;
+      margin-top: 1rem;
+      border-top: 2px solid #667eea;
+      border-bottom: 2px solid #667eea;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #667eea;
+    }
+
+    .actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 1rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background: #667eea;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #764ba2;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #667eea;
+      border: 2px solid #667eea;
+    }
+
+    .btn-secondary:hover {
+      background: #f5f7fa;
+    }
+
+    .help-section {
+      background: #f5f7fa;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-top: 2rem;
+      border-right: 4px solid #667eea;
+    }
+
+    .help-section h3 {
+      margin-top: 0;
+      color: #667eea;
+    }
+
+    .help-section p {
+      margin: 0.5rem 0;
+      color: #666;
+    }
+
+    .email-confirmation {
+      background: #e8f5e9;
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+      border-left: 4px solid #4caf50;
+    }
+
+    .email-confirmation p {
+      margin: 0;
+      color: #2e7d32;
+    }
+
+    @media (max-width: 768px) {
+      .actions {
+        flex-direction: column;
+      }
+
+      .info-row {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .order-item {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo">🛍️ متجرك الإلكتروني</div>
+        <ul class="nav-items">
+          <li><a href="/">الرئيسية</a></li>
+          <li><a href="/products">المنتجات</a></li>
+          <li><a href="/cart">السلة</a></li>
+          <li><a href="/account">حسابي</a></li>
+          <li><a href="/logout">خروج</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="confirmation-container">
+    <!-- Success Header -->
+    <div class="success-header">
+      <div class="success-icon">✅</div>
+      <h1 class="success-title">تم استلام طلبك بنجاح!</h1>
+      <p class="success-message">شكراً لك! سيتم معالجة طلبك قريباً</p>
+    </div>
+
+    <!-- Order Number -->
+    <div class="order-number">
+      <div class="order-number-label">رقم الطلب</div>
+      <div class="order-number-value">#ORD-2024-001234</div>
+    </div>
+
+    <!-- Email Confirmation -->
+    <div class="email-confirmation">
+      <p>✓ تم إرسال رسالة تأكيد إلى بريدك الإلكتروني (أحمد@email.com)</p>
+    </div>
+
+    <!-- Shipping Information -->
+    <div class="confirmation-card">
+      <h2 class="card-title">معلومات التسليم</h2>
+
+      <div class="info-row">
+        <span class="info-label">المستقبل:</span>
+        <span class="info-value">أحمد محمد</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">العنوان:</span>
+        <span class="info-value">شارع التحلية، الرياض 12345</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">الهاتف:</span>
+        <span class="info-value">+966 50 1234 567</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">طريقة الشحن:</span>
+        <span class="info-value">الشحن العادي (5-7 أيام)</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">تاريخ التسليم المتوقع:</span>
+        <span class="info-value">12-15 يناير 2024</span>
+      </div>
+    </div>
+
+    <!-- Order Details -->
+    <div class="confirmation-card">
+      <h2 class="card-title">تفاصيل الطلب</h2>
+
+      <div class="order-items">
+        <div class="order-item">
+          <div class="item-info">
+            <div class="item-name">منتج 1 - قميص أسود</div>
+            <div class="item-qty">الكمية: 2 | الحجم: L</div>
+          </div>
+          <div class="item-price">500 ر.س</div>
+        </div>
+
+        <div class="order-item">
+          <div class="item-info">
+            <div class="item-name">منتج 2 - حذاء رياضي</div>
+            <div class="item-qty">الكمية: 1 | الحجم: 42</div>
+          </div>
+          <div class="item-price">250 ر.س</div>
+        </div>
+      </div>
+
+      <div class="summary-table">
+        <div class="summary-row">
+          <span>السعر الفرعي:</span>
+          <span>750 ر.س</span>
+        </div>
+
+        <div class="summary-row">
+          <span>الشحن:</span>
+          <span>مجاني</span>
+        </div>
+
+        <div class="summary-row">
+          <span>الضريبة (15%):</span>
+          <span>112.50 ر.س</span>
+        </div>
+
+        <div class="summary-row total">
+          <span>الإجمالي:</span>
+          <span>862.50 ر.س</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment Information -->
+    <div class="confirmation-card">
+      <h2 class="card-title">معلومات الدفع</h2>
+
+      <div class="info-row">
+        <span class="info-label">طريقة الدفع:</span>
+        <span class="info-value">بطاقة ائتمان (****1234)</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">حالة الدفع:</span>
+        <span class="info-value" style="color: #4caf50; font-weight: 600;">✓ تم الدفع بنجاح</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">رقم المرجع:</span>
+        <span class="info-value">REF-123456789</span>
+      </div>
+    </div>
+
+    <!-- Order Tracking Timeline -->
+    <div class="confirmation-card">
+      <h2 class="card-title">حالة الطلب</h2>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot completed">✓</div>
+          <div class="timeline-content">
+            <div class="timeline-title">تم استلام الطلب</div>
+            <div class="timeline-date">اليوم، 02:30 م</div>
+            <div class="timeline-description">تم تأكيد طلبك وبدء معالجته</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot pending">2</div>
+          <div class="timeline-content">
+            <div class="timeline-title">تجهيز المنتجات</div>
+            <div class="timeline-date">غداً</div>
+            <div class="timeline-description">جاري تجميع وتحضير المنتجات للشحن</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot pending">3</div>
+          <div class="timeline-content">
+            <div class="timeline-title">في الطريق إليك</div>
+            <div class="timeline-date">خلال 5-7 أيام</div>
+            <div class="timeline-description">الطلب قيد الشحن من المستودع</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot pending">4</div>
+          <div class="timeline-content">
+            <div class="timeline-title">تم التسليم</div>
+            <div class="timeline-date">12-15 يناير</div>
+            <div class="timeline-description">سيتم توصيل طلبك إلى عنوانك</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button class="btn btn-primary" onclick="trackOrder()">تتبع الطلب</button>
+      <button class="btn btn-secondary" onclick="continueShopping()">متابعة التسوق</button>
+    </div>
+
+    <!-- Help Section -->
+    <div class="help-section">
+      <h3>📞 هل تحتاج مساعدة؟</h3>
+      <p><strong>خدمة العملاء:</strong> يمكنك التواصل معنا على 920000000</p>
+      <p><strong>البريد الإلكتروني:</strong> support@estore.com</p>
+      <p><strong>ساعات العمل:</strong> السبت - الخميس، من 9 ص إلى 5 م</p>
+    </div>
+  </main>
+
+  <script>
+    function trackOrder() {
+      alert('سيتم فتح صفحة تتبع الطلب');
+      // window.location.href = '/account/orders/ORD-2024-001234';
+    }
+
+    function continueShopping() {
+      window.location.href = '/products';
+    }
+  </script>
+</body>
+</html>

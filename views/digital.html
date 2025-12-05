@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>المنتجات الرقمية والعروض - متجرك الإلكتروني</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .digital-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .hero-section {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 4rem 2rem;
+      border-radius: 12px;
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .hero-section h1 {
+      font-size: 2.5rem;
+      margin: 0 0 1rem;
+    }
+
+    .hero-section p {
+      font-size: 1.2rem;
+      margin: 0;
+      opacity: 0.95;
+    }
+
+    .section {
+      margin-bottom: 4rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 2rem;
+      text-align: center;
+      position: relative;
+      padding-bottom: 1rem;
+    }
+
+    .section-title:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: #667eea;
+      border-radius: 2px;
+    }
+
+    /* Category Tabs */
+    .category-tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .category-tab {
+      padding: 0.75rem 1.5rem;
+      border: 2px solid #ddd;
+      background: white;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 600;
+      color: #666;
+    }
+
+    .category-tab:hover,
+    .category-tab.active {
+      border-color: #667eea;
+      background: #667eea;
+      color: white;
+    }
+
+    /* Product Grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #ff6b6b;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .badge.discount {
+      background: #667eea;
+    }
+
+    .badge.new {
+      background: #51cf66;
+    }
+
+    .product-content {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-category {
+      color: #667eea;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-description {
+      color: #666;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+      flex: 1;
+    }
+
+    .product-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .product-price {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .original-price {
+      color: #999;
+      text-decoration: line-through;
+      font-size: 0.9rem;
+    }
+
+    .final-price {
+      color: #667eea;
+      font-weight: 700;
+      font-size: 1.3rem;
+    }
+
+    .add-to-cart {
+      padding: 0.5rem 1rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .add-to-cart:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    /* Special Offer Banners */
+    .offer-banner {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ff8787 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .offer-banner h2 {
+      font-size: 1.8rem;
+      margin: 0 0 0.5rem;
+    }
+
+    .offer-banner p {
+      margin: 0 0 1.5rem;
+      opacity: 0.95;
+    }
+
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .countdown-item {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 1rem;
+      border-radius: 6px;
+    }
+
+    .countdown-number {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .countdown-label {
+      font-size: 0.8rem;
+      opacity: 0.9;
+    }
+
+    .shop-now-btn {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      background: white;
+      color: #ff6b6b;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 700;
+      transition: all 0.3s;
+    }
+
+    .shop-now-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Seasonal Offers */
+    .seasonal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .seasonal-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      border-top: 4px solid #667eea;
+      transition: all 0.3s;
+    }
+
+    .seasonal-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .seasonal-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .seasonal-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 0.75rem;
+    }
+
+    .seasonal-description {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .discount-percentage {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .seasonal-btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .seasonal-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    /* Feature Highlights */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      background: #f5f7fa;
+      padding: 2rem;
+      border-radius: 12px;
+    }
+
+    .feature-item {
+      text-align: center;
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .feature-title {
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-description {
+      color: #666;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .hero-section h1 {
+        font-size: 1.8rem;
+      }
+
+      .section-title {
+        font-size: 1.6rem;
+      }
+
+      .product-grid,
+      .seasonal-grid,
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .category-tabs {
+        flex-direction: column;
+      }
+
+      .category-tab {
+        width: 100%;
+      }
+
+      .countdown {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo">🛍️ متجرك الإلكتروني</div>
+        <ul class="nav-items">
+          <li><a href="/">الرئيسية</a></li>
+          <li><a href="/products">المنتجات</a></li>
+          <li><a href="/services">الخدمات</a></li>
+          <li><a href="/cart">السلة</a></li>
+          <li><a href="/account">حسابي</a></li>
+          <li><a href="/logout">خروج</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="digital-container">
+    <!-- Hero Section -->
+    <div class="hero-section">
+      <h1>المنتجات الرقمية والعروض الخاصة</h1>
+      <p>اكتشف عالماً جديداً من المنتجات الرقمية والعروض المحدودة</p>
+    </div>
+
+    <!-- Flash Sale Banner -->
+    <div class="offer-banner">
+      <h2>🔥 عرض فلاش محدود الوقت</h2>
+      <p>خصم حتى 70% على المنتجات الرقمية المختارة</p>
+      <div class="countdown">
+        <div class="countdown-item">
+          <div class="countdown-number">2</div>
+          <div class="countdown-label">أيام</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number">14</div>
+          <div class="countdown-label">ساعات</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number">35</div>
+          <div class="countdown-label">دقائق</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number">42</div>
+          <div class="countdown-label">ثواني</div>
+        </div>
+      </div>
+      <a href="#flash-products" class="shop-now-btn">تسوق الآن</a>
+    </div>
+
+    <!-- Digital Products Section -->
+    <section class="section">
+      <h2 class="section-title">💻 المنتجات الرقمية</h2>
+      <div class="category-tabs">
+        <button class="category-tab active" onclick="filterProducts('all')">الكل</button>
+        <button class="category-tab" onclick="filterProducts('ebooks')">الكتب</button>
+        <button class="category-tab" onclick="filterProducts('courses')">الدورات</button>
+        <button class="category-tab" onclick="filterProducts('software')">البرامج</button>
+        <button class="category-tab" onclick="filterProducts('templates')">القوالب</button>
+      </div>
+
+      <div id="flash-products" class="product-grid">
+        <!-- Product 1 -->
+        <div class="product-card" data-category="courses">
+          <div class="product-image">
+            🎓
+            <div class="badge discount">-50%</div>
+          </div>
+          <div class="product-content">
+            <div class="product-category">دورة تعليمية</div>
+            <h3 class="product-title">دورة التسويق الرقمي</h3>
+            <p class="product-description">
+              دورة شاملة تغطي كل أساسيات التسويق الرقمي والتطبيق العملي
+            </p>
+            <div class="product-footer">
+              <div class="product-price">
+                <div class="original-price">199 ريال</div>
+                <div class="final-price">99 ريال</div>
+              </div>
+              <button class="add-to-cart">أضف</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="product-card" data-category="ebooks">
+          <div class="product-image">
+            📚
+            <div class="badge new">جديد</div>
+          </div>
+          <div class="product-content">
+            <div class="product-category">كتاب رقمي</div>
+            <h3 class="product-title">كتاب دليل رائد الأعمال</h3>
+            <p class="product-description">
+              دليل شامل يحتوي على أفضل الممارسات لبدء وإدارة مشروعك
+            </p>
+            <div class="product-footer">
+              <div class="product-price">
+                <div class="original-price">79 ريال</div>
+                <div class="final-price">39 ريال</div>
+              </div>
+              <button class="add-to-cart">أضف</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product-card" data-category="templates">
+          <div class="product-image">
+            🎨
+            <div class="badge discount">-60%</div>
+          </div>
+          <div class="product-content">
+            <div class="product-category">قالب تصميم</div>
+            <h3 class="product-title">قوالب متجر حديثة</h3>
+            <p class="product-description">
+              مجموعة 50 قالب متجر إلكتروني جاهزة للاستخدام
+            </p>
+            <div class="product-footer">
+              <div class="product-price">
+                <div class="original-price">299 ريال</div>
+                <div class="final-price">119 ريال</div>
+              </div>
+              <button class="add-to-cart">أضف</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="product-card" data-category="software">
+          <div class="product-image">
+            💾
+            <div class="badge discount">-40%</div>
+          </div>
+          <div class="product-content">
+            <div class="product-category">برنامج</div>
+            <h3 class="product-title">أداة إدارة المخزون</h3>
+            <p class="product-description">
+              برنامج احترافي لإدارة المخزون والمبيعات بسهولة
+            </p>
+            <div class="product-footer">
+              <div class="product-price">
+                <div class="original-price">499 ريال</div>
+                <div class="final-price">299 ريال</div>
+              </div>
+              <button class="add-to-cart">أضف</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 5 -->
+        <div class="product-card" data-category="courses">
+          <div class="product-image">
+            💼
+            <div class="badge discount">-45%</div>
+          </div>
+          <div class="product-content">
+            <div class="product-category">دورة تعليمية</div>
+            <h3 class="product-title">دورة إدارة المشاريع</h3>
+            <p class="product-description">
+              تعلم أفضل ممارسات إدارة المشاريع من البداية للنهاية
+            </p>
+            <div class="product-footer">
+              <div class="product-price">
+                <div class="original-price">349 ريال</div>
+                <div class="final-price">189 ريال</div>
+              </div>
+              <button class="add-to-cart">أضف</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 6 -->
+        <div class="product-card" data-category="ebooks">
+          <div class="product-image">
+            📖
+            <div class="badge discount">-35%</div>
+          </div>
+          <div class="product-content">
+            <div class="product-category">كتاب رقمي</div>
+            <h3 class="product-title">استراتيجيات المبيعات</h3>
+            <p class="product-description">
+              استراتيجيات فعّالة لزيادة المبيعات والعملاء دراسات حقيقية
+            </p>
+            <div class="product-footer">
+              <div class="product-price">
+                <div class="original-price">129 ريال</div>
+                <div class="final-price">79 ريال</div>
+              </div>
+              <button class="add-to-cart">أضف</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seasonal Offers -->
+    <section class="section">
+      <h2 class="section-title">📅 العروض الموسمية</h2>
+      <div class="seasonal-grid">
+        <!-- New Year -->
+        <div class="seasonal-card">
+          <div class="seasonal-icon">🎉</div>
+          <h3 class="seasonal-title">عرض رأس السنة</h3>
+          <p class="seasonal-description">
+            احتفل معنا ببدء جديد بخصومات لم تشهدها من قبل
+          </p>
+          <div class="discount-percentage">حتى 50%</div>
+          <button class="seasonal-btn">تصفح العرض</button>
+        </div>
+
+        <!-- Summer Sale -->
+        <div class="seasonal-card">
+          <div class="seasonal-icon">☀️</div>
+          <h3 class="seasonal-title">عرض الصيف</h3>
+          <p class="seasonal-description">
+            أجمل الإجازة تبدأ بتسوق ذكي واقتصادي
+          </p>
+          <div class="discount-percentage">حتى 60%</div>
+          <button class="seasonal-btn">تصفح العرض</button>
+        </div>
+
+        <!-- Back to School -->
+        <div class="seasonal-card">
+          <div class="seasonal-icon">🎒</div>
+          <h3 class="seasonal-title">عودة للدراسة</h3>
+          <p class="seasonal-description">
+            كل ما تحتاج للعودة للدراسة بأسعار مميزة
+          </p>
+          <div class="discount-percentage">حتى 45%</div>
+          <button class="seasonal-btn">تصفح العرض</button>
+        </div>
+
+        <!-- Eid Sale -->
+        <div class="seasonal-card">
+          <div class="seasonal-icon">🌙</div>
+          <h3 class="seasonal-title">عروض العيد</h3>
+          <p class="seasonal-description">
+            احتفل بعيدك معنا بأفضل الخصومات والعروض
+          </p>
+          <div class="discount-percentage">حتى 70%</div>
+          <button class="seasonal-btn">تصفح العرض</button>
+        </div>
+
+        <!-- Birthday Sale -->
+        <div class="seasonal-card">
+          <div class="seasonal-icon">🎂</div>
+          <h3 class="seasonal-title">عرض المتجر السنوي</h3>
+          <p class="seasonal-description">
+            احتفالاً بعيد ميلاد متجرنا نقدم أرخص الأسعار
+          </p>
+          <div class="discount-percentage">حتى 80%</div>
+          <button class="seasonal-btn">تصفح العرض</button>
+        </div>
+
+        <!-- Black Friday -->
+        <div class="seasonal-card">
+          <div class="seasonal-icon">⚫</div>
+          <h3 class="seasonal-title">الجمعة السوداء</h3>
+          <p class="seasonal-description">
+            أكبر عرض سنوي بأكبر خصومات وأفضل الأسعار
+          </p>
+          <div class="discount-percentage">حتى 75%</div>
+          <button class="seasonal-btn">تصفح العرض</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section">
+      <h2 class="section-title">✨ مميزات المنتجات الرقمية</h2>
+      <div class="features-grid">
+        <div class="feature-item">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-title">وصول فوري</div>
+          <div class="feature-description">احصل على المنتج فوراً بعد الشراء</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🔒</div>
+          <div class="feature-title">آمن وموثوق</div>
+          <div class="feature-description">جميع المنتجات آمنة وخالية من الفيروسات</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">♾️</div>
+          <div class="feature-title">حق الوصول مدى الحياة</div>
+          <div class="feature-description">احتفظ بحقوق الوصول مدى الحياة</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🔄</div>
+          <div class="feature-title">تحديثات مجانية</div>
+          <div class="feature-description">احصل على جميع التحديثات مجاناً</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer style="background: #f5f7fa; padding: 3rem 1rem; text-align: center; color: #666; margin-top: 4rem;">
+    <p>&copy; 2024 متجرك الإلكتروني. جميع الحقوق محفوظة.</p>
+  </footer>
+
+  <script>
+    function filterProducts(category) {
+      // Update active button
+      document.querySelectorAll('.category-tab').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+
+      // Filter products
+      const products = document.querySelectorAll('.product-card');
+      products.forEach(product => {
+        if (category === 'all' || product.dataset.category === category) {
+          product.style.display = 'block';
+        } else {
+          product.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

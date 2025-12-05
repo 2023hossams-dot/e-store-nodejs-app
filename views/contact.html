@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>اتصل بنا - متجرك الإلكتروني</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .contact-container {
+      max-width: 1200px;
+      margin: 3rem auto;
+      padding: 0 1rem;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .page-header h1 {
+      color: #333;
+      font-size: 2.5rem;
+      margin: 0 0 0.5rem;
+    }
+
+    .page-header p {
+      color: #666;
+      font-size: 1.1rem;
+    }
+
+    .contact-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .contact-form {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #333;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: border-color 0.3s;
+      box-sizing: border-box;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 150px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .form-row .form-group {
+      margin-bottom: 0;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s;
+      margin-top: 1rem;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .info-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .info-card h3 {
+      margin: 0 0 1rem;
+      color: #333;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .info-icon {
+      font-size: 1.5rem;
+    }
+
+    .info-content {
+      color: #666;
+      line-height: 1.8;
+    }
+
+    .info-content p {
+      margin: 0 0 0.5rem;
+    }
+
+    .info-content a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .info-content a:hover {
+      text-decoration: underline;
+    }
+
+    /* Social Links */
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 45px;
+      height: 45px;
+      background: #f5f7fa;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: all 0.3s;
+    }
+
+    .social-btn:hover {
+      background: #667eea;
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    /* FAQs Section */
+    .faqs-section {
+      margin-top: 4rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .faqs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .faq-item {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .faq-question {
+      font-weight: 700;
+      color: #333;
+      margin: 0 0 0.75rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .faq-toggle {
+      font-size: 1.2rem;
+      transition: transform 0.3s;
+    }
+
+    .faq-answer {
+      color: #666;
+      line-height: 1.6;
+      display: none;
+    }
+
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+
+    .faq-item.active .faq-toggle {
+      transform: rotate(180deg);
+    }
+
+    /* Response Message */
+    .response-message {
+      display: none;
+      padding: 1rem;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .response-message.success {
+      background: #c8e6c9;
+      color: #2e7d32;
+      display: block;
+    }
+
+    .response-message.error {
+      background: #ffcdd2;
+      color: #c62828;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .contact-content {
+        grid-template-columns: 1fr;
+      }
+
+      .page-header h1 {
+        font-size: 1.8rem;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .faqs-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo">🛍️ متجرك الإلكتروني</div>
+        <ul class="nav-items">
+          <li><a href="/">الرئيسية</a></li>
+          <li><a href="/products">المنتجات</a></li>
+          <li><a href="/cart">السلة</a></li>
+          <li><a href="/account">حسابي</a></li>
+          <li><a href="/logout">خروج</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="contact-container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1>اتصل بنا</h1>
+      <p>نحن هنا للإجابة على جميع أسئلتك والاستماع إلى آرائك</p>
+    </div>
+
+    <!-- Contact Content -->
+    <div class="contact-content">
+      <!-- Contact Form -->
+      <div class="contact-form">
+        <h2>أرسل لنا رسالة</h2>
+        <div class="response-message success" id="successMessage">
+          شكراً! تم استقبال رسالتك بنجاح. سنرد عليك قريباً.
+        </div>
+        
+        <form id="contactForm" onsubmit="submitForm(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">الاسم الكامل</label>
+              <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">البريد الإلكتروني</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">رقم الهاتف</label>
+              <input type="tel" id="phone" name="phone">
+            </div>
+            <div class="form-group">
+              <label for="subject">الموضوع</label>
+              <select id="subject" name="subject" required>
+                <option value="">اختر الموضوع</option>
+                <option value="order">استفسار عن الطلب</option>
+                <option value="product">سؤال عن منتج</option>
+                <option value="return">استرجاع أو استبدال</option>
+                <option value="complaint">شكوى</option>
+                <option value="suggestion">اقتراح</option>
+                <option value="other">أخرى</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="message">الرسالة</label>
+            <textarea id="message" name="message" required placeholder="اكتب رسالتك هنا..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit">إرسال الرسالة</button>
+        </form>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="contact-info">
+        <!-- Email -->
+        <div class="info-card">
+          <h3>
+            <span class="info-icon">📧</span>
+            البريد الإلكتروني
+          </h3>
+          <div class="info-content">
+            <p>
+              <strong>للدعم الفني:</strong><br>
+              <a href="mailto:support@example.com">support@example.com</a>
+            </p>
+            <p>
+              <strong>للاستفسارات العامة:</strong><br>
+              <a href="mailto:info@example.com">info@example.com</a>
+            </p>
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="info-card">
+          <h3>
+            <span class="info-icon">📞</span>
+            الهاتف
+          </h3>
+          <div class="info-content">
+            <p>
+              <strong>خدمة العملاء:</strong><br>
+              <a href="tel:+966123456789">+966 (1) 2345-6789</a>
+            </p>
+            <p>
+              <strong>الفاكس:</strong><br>
+              +966 (1) 2345-6799
+            </p>
+          </div>
+        </div>
+
+        <!-- Address -->
+        <div class="info-card">
+          <h3>
+            <span class="info-icon">📍</span>
+            العنوان
+          </h3>
+          <div class="info-content">
+            <p>
+              متجرك الإلكتروني<br>
+              شارع التجارة، حي الأعمال<br>
+              الرياض، المملكة العربية السعودية<br>
+              الرمز البريدي: 12345
+            </p>
+          </div>
+        </div>
+
+        <!-- Hours -->
+        <div class="info-card">
+          <h3>
+            <span class="info-icon">🕐</span>
+            ساعات العمل
+          </h3>
+          <div class="info-content">
+            <p>
+              <strong>أيام العمل:</strong><br>
+              السبت - الخميس: 9:00 ص - 6:00 م
+            </p>
+            <p>
+              <strong>الجمعة:</strong><br>
+              2:00 م - 6:00 م
+            </p>
+          </div>
+        </div>
+
+        <!-- Social -->
+        <div class="info-card">
+          <h3>
+            <span class="info-icon">👥</span>
+            تابعنا على وسائل التواصل
+          </h3>
+          <div class="social-links">
+            <button class="social-btn" title="فيسبوك">f</button>
+            <button class="social-btn" title="تويتر">𝕏</button>
+            <button class="social-btn" title="انستجرام">📷</button>
+            <button class="social-btn" title="لينكدإن">in</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQs Section -->
+    <div class="faqs-section">
+      <h2 class="section-title">الأسئلة الشائعة</h2>
+      <div class="faqs-grid">
+        <div class="faq-item">
+          <h3 class="faq-question">
+            <span>ما هي طرق الدفع المتاحة؟</span>
+            <span class="faq-toggle">▼</span>
+          </h3>
+          <p class="faq-answer">
+            نقبل جميع بطاقات الائتمان الرئيسية، التحويل البنكي، المحافظ الرقمية، والدفع عند الاستلام.
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <h3 class="faq-question">
+            <span>كم مدة الشحن؟</span>
+            <span class="faq-toggle">▼</span>
+          </h3>
+          <p class="faq-answer">
+            يعتمد على نوع الشحن: الشحن السريع 1-2 يوم، العادي 3-5 أيام، والاقتصادي 7-10 أيام.
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <h3 class="faq-question">
+            <span>ما هي سياسة الإرجاع؟</span>
+            <span class="faq-toggle">▼</span>
+          </h3>
+          <p class="faq-answer">
+            يمكنك إرجاع المنتجات خلال 30 يوم من التسليم بشرط أن تكون في حالة أصلية.
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <h3 class="faq-question">
+            <span>هل توجد خصومات للطلبات الكبيرة؟</span>
+            <span class="faq-toggle">▼</span>
+          </h3>
+          <p class="faq-answer">
+            نعم، نقدم خصومات خاصة للطلبات الكبيرة والتجار. يرجى التواصل معنا مباشرة.
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <h3 class="faq-question">
+            <span>كيف يمكنني تتبع طلبي؟</span>
+            <span class="faq-toggle">▼</span>
+          </h3>
+          <p class="faq-answer">
+            يمكنك تتبع طلبك من خلال حسابك أو الرابط الذي سيتم إرساله لك عبر البريد الإلكتروني.
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <h3 class="faq-question">
+            <span>هل متجركم آمن لعمليات الدفع؟</span>
+            <span class="faq-toggle">▼</span>
+          </h3>
+          <p class="faq-answer">
+            نعم، نستخدم تشفير SSL 256-بت وتقنيات الأمان العالية لحماية بيانات العملاء.
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // FAQs Toggle
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', function() {
+        this.parentElement.classList.toggle('active');
+      });
+    });
+
+    // Form Submission
+    function submitForm(event) {
+      event.preventDefault();
+      
+      const form = document.getElementById('contactForm');
+      const formData = new FormData(form);
+      
+      // Simulate form submission
+      console.log('Form submitted:', Object.fromEntries(formData));
+      
+      // Show success message
+      const successMsg = document.getElementById('successMessage');
+      successMsg.style.display = 'block';
+      
+      // Reset form
+      form.reset();
+      
+      // Hide message after 5 seconds
+      setTimeout(() => {
+        successMsg.style.display = 'none';
+      }, 5000);
+    }
+  </script>
+</body>
+</html>

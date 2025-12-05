@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>برنامج الولاء والمكافآت - متجرك الإلكتروني</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .loyalty-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .hero-section {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 4rem 2rem;
+      border-radius: 12px;
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .hero-section h1 {
+      font-size: 2.5rem;
+      margin: 0 0 1rem;
+    }
+
+    .hero-section p {
+      font-size: 1.2rem;
+      margin: 0;
+      opacity: 0.95;
+    }
+
+    .section {
+      margin-bottom: 4rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 2rem;
+      text-align: center;
+      position: relative;
+      padding-bottom: 1rem;
+    }
+
+    .section-title:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: #667eea;
+      border-radius: 2px;
+    }
+
+    /* Tier Cards */
+    .tier-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .tier-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border-top: 4px solid #667eea;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .tier-card.premium {
+      border-top-color: #ffd700;
+      transform: scale(1.05);
+    }
+
+    .tier-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .tier-card.premium:hover {
+      transform: scale(1.05) translateY(-10px);
+    }
+
+    .badge {
+      position: absolute;
+      top: -12px;
+      right: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .badge.gold {
+      background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+      color: #333;
+    }
+
+    .tier-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #333;
+      margin: 1rem 0 0.5rem;
+    }
+
+    .tier-description {
+      color: #666;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .points-info {
+      background: #f5f7fa;
+      padding: 1rem;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .points-number {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #667eea;
+    }
+
+    .points-label {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .benefits-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .benefits-list li {
+      padding: 0.6rem 0;
+      color: #666;
+      font-size: 0.95rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    .benefits-list li:last-child {
+      border-bottom: none;
+    }
+
+    .benefits-list li:before {
+      content: "✓ ";
+      color: #667eea;
+      font-weight: 700;
+      margin-right: 0.5rem;
+    }
+
+    /* How to Earn */
+    .earn-section {
+      background: #f5f7fa;
+      padding: 3rem 2rem;
+      border-radius: 12px;
+    }
+
+    .earn-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+
+    .earn-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .earn-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .earn-title {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    .earn-points {
+      color: #667eea;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    /* Rewards Section */
+    .rewards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .reward-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+    }
+
+    .reward-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .reward-image {
+      width: 100%;
+      height: 150px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+
+    .reward-content {
+      padding: 1.5rem;
+    }
+
+    .reward-title {
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    .reward-points {
+      color: #667eea;
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .reward-description {
+      color: #666;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* FAQ Section */
+    .faq-item {
+      background: white;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .faq-question {
+      padding: 1.5rem;
+      cursor: pointer;
+      background: #f5f7fa;
+      font-weight: 600;
+      color: #333;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s;
+    }
+
+    .faq-question:hover {
+      background: #eaeef5;
+    }
+
+    .faq-icon {
+      font-size: 1.2rem;
+      transition: transform 0.3s;
+    }
+
+    .faq-answer {
+      padding: 0 1.5rem;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.3s;
+      color: #666;
+      line-height: 1.7;
+    }
+
+    .faq-item.active .faq-answer {
+      padding: 1.5rem;
+      max-height: 500px;
+    }
+
+    .faq-item.active .faq-icon {
+      transform: rotate(180deg);
+    }
+
+    @media (max-width: 768px) {
+      .hero-section h1 {
+        font-size: 1.8rem;
+      }
+
+      .tier-card.premium {
+        transform: scale(1);
+      }
+
+      .tier-card.premium:hover {
+        transform: translateY(-10px);
+      }
+
+      .section-title {
+        font-size: 1.6rem;
+      }
+
+      .tier-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .earn-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .rewards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo">🛍️ متجرك الإلكتروني</div>
+        <ul class="nav-items">
+          <li><a href="/">الرئيسية</a></li>
+          <li><a href="/products">المنتجات</a></li>
+          <li><a href="/services">الخدمات</a></li>
+          <li><a href="/cart">السلة</a></li>
+          <li><a href="/account">حسابي</a></li>
+          <li><a href="/logout">خروج</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="loyalty-container">
+    <!-- Hero Section -->
+    <div class="hero-section">
+      <h1>برنامج الولاء والمكافآت</h1>
+      <p>اكسب النقاط مع كل عملية شراء واستبدلها بمكافآت حصرية</p>
+    </div>
+
+    <!-- Membership Tiers -->
+    <section class="section">
+      <h2 class="section-title">مستويات العضوية</h2>
+      <div class="tier-grid">
+        <!-- Silver Tier -->
+        <div class="tier-card">
+          <div class="badge">الفضي</div>
+          <div class="tier-name">الفضي</div>
+          <div class="tier-description">ابدأ رحلتك مع المكافآت</div>
+          <div class="points-info">
+            <div class="points-label">نقاط التنشيط</div>
+            <div class="points-number">0 - 500</div>
+          </div>
+          <ul class="benefits-list">
+            <li>كسب 1 نقطة لكل ريال</li>
+            <li>خصم 5% على الطلبات</li>
+            <li>شحن مجاني فوق 100 ريال</li>
+            <li>عروض حصرية شهرية</li>
+            <li>دعم أولويتي</li>
+            <li>عيد ميلاد خصم 10%</li>
+          </ul>
+        </div>
+
+        <!-- Gold Tier -->
+        <div class="tier-card premium">
+          <div class="badge gold">الذهبي 🌟</div>
+          <div class="tier-name">الذهبي</div>
+          <div class="tier-description">أفضل قيمة وأكثر مكافآت</div>
+          <div class="points-info">
+            <div class="points-label">نقاط التنشيط</div>
+            <div class="points-number">501 - 2000</div>
+          </div>
+          <ul class="benefits-list">
+            <li>كسب 1.5 نقطة لكل ريال</li>
+            <li>خصم 10% على الطلبات</li>
+            <li>شحن مجاني لجميع الطلبات</li>
+            <li>عروض خاصة أسبوعية</li>
+            <li>دعم ممتاز 24/7</li>
+            <li>عيد ميلاد خصم 20%</li>
+            <li>نقاط مضاعفة في المناسبات</li>
+          </ul>
+        </div>
+
+        <!-- Platinum Tier -->
+        <div class="tier-card">
+          <div class="badge">البلاتيني</div>
+          <div class="tier-name">البلاتيني</div>
+          <div class="tier-description">أقصى المميزات والامتيازات</div>
+          <div class="points-info">
+            <div class="points-label">نقاط التنشيط</div>
+            <div class="points-number">2000+</div>
+          </div>
+          <ul class="benefits-list">
+            <li>كسب 2 نقطة لكل ريال</li>
+            <li>خصم 15% على الطلبات</li>
+            <li>شحن فوري مجاني</li>
+            <li>عروض VIP حصرية</li>
+            <li>مدير حساب خاص</li>
+            <li>عيد ميلاد خصم 30%</li>
+            <li>عودة الأموال دون أسئلة</li>
+            <li>أولويات إنتاج وشحن</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- How to Earn Points -->
+    <section class="section">
+      <h2 class="section-title">كيفية كسب النقاط</h2>
+      <div class="earn-section">
+        <div class="earn-grid">
+          <div class="earn-card">
+            <div class="earn-icon">🛒</div>
+            <div class="earn-title">الشراء</div>
+            <div class="earn-points">1 نقطة / ريال</div>
+          </div>
+          <div class="earn-card">
+            <div class="earn-icon">⭐</div>
+            <div class="earn-title">التقييم</div>
+            <div class="earn-points">10 نقاط / تقييم</div>
+          </div>
+          <div class="earn-card">
+            <div class="earn-icon">💬</div>
+            <div class="earn-title">التعليق</div>
+            <div class="earn-points">5 نقاط / تعليق</div>
+          </div>
+          <div class="earn-card">
+            <div class="earn-icon">👥</div>
+            <div class="earn-title">الإحالة</div>
+            <div class="earn-points">50 نقطة / شخص</div>
+          </div>
+          <div class="earn-card">
+            <div class="earn-icon">📱</div>
+            <div class="earn-title">تحميل التطبيق</div>
+            <div class="earn-points">100 نقطة مكافأة</div>
+          </div>
+          <div class="earn-card">
+            <div class="earn-icon">🎁</div>
+            <div class="earn-title">المناسبات</div>
+            <div class="earn-points">حتى 500 نقطة</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Available Rewards -->
+    <section class="section">
+      <h2 class="section-title">المكافآت المتاحة</h2>
+      <div class="rewards-grid">
+        <!-- Discount Coupon -->
+        <div class="reward-card">
+          <div class="reward-image">🎟️</div>
+          <div class="reward-content">
+            <div class="reward-title">كوبون خصم 50 ريال</div>
+            <div class="reward-points">200 نقطة</div>
+            <div class="reward-description">استخدم كوبون الخصم على أي منتج وفر 50 ريال</div>
+          </div>
+        </div>
+
+        <!-- Free Shipping -->
+        <div class="reward-card">
+          <div class="reward-image">🚚</div>
+          <div class="reward-content">
+            <div class="reward-title">شحن مجاني</div>
+            <div class="reward-points">150 نقطة</div>
+            <div class="reward-description">احصل على شحن مجاني لأي طلب بدون حد أدنى</div>
+          </div>
+        </div>
+
+        <!-- Product Voucher -->
+        <div class="reward-card">
+          <div class="reward-image">🎁</div>
+          <div class="reward-content">
+            <div class="reward-title">قسيمة شراء 100 ريال</div>
+            <div class="reward-points">300 نقطة</div>
+            <div class="reward-description">شتري ما تريد بقيمة 100 ريال من متجرنا</div>
+          </div>
+        </div>
+
+        <!-- Early Access -->
+        <div class="reward-card">
+          <div class="reward-image">⏰</div>
+          <div class="reward-content">
+            <div class="reward-title">وصول مبكر للعروض</div>
+            <div class="reward-points">100 نقطة</div>
+            <div class="reward-description">احصل على وصول مبكر لعروضنا الخاصة</div>
+          </div>
+        </div>
+
+        <!-- Exclusive Product -->
+        <div class="reward-card">
+          <div class="reward-image">💎</div>
+          <div class="reward-content">
+            <div class="reward-title">منتج حصري</div>
+            <div class="reward-points">500 نقطة</div>
+            <div class="reward-description">احصل على منتج حصري متاح فقط لأعضاء برنامج الولاء</div>
+          </div>
+        </div>
+
+        <!-- Birthday Gift -->
+        <div class="reward-card">
+          <div class="reward-image">🎂</div>
+          <div class="reward-content">
+            <div class="reward-title">هدية عيد الميلاد</div>
+            <div class="reward-points">0 نقطة</div>
+            <div class="reward-description">احصل على هدية خاصة وخصم إضافي في عيد ميلادك</div>
+          </div>
+        </div>
+
+        <!-- Double Points -->
+        <div class="reward-card">
+          <div class="reward-image">2️⃣</div>
+          <div class="reward-content">
+            <div class="reward-title">نقاط مضاعفة</div>
+            <div class="reward-points">250 نقطة</div>
+            <div class="reward-description">اضاعف نقاطك في أول شراء بعد التفعيل</div>
+          </div>
+        </div>
+
+        <!-- VIP Event -->
+        <div class="reward-card">
+          <div class="reward-image">🎪</div>
+          <div class="reward-content">
+            <div class="reward-title">دعوة حدث VIP</div>
+            <div class="reward-points">400 نقطة</div>
+            <div class="reward-description">احضر حدث VIP حصري خاص بأعضاء برنامج الولاء</div>
+          </div>
+        </div>
+
+        <!-- Personal Shopper -->
+        <div class="reward-card">
+          <div class="reward-image">👜</div>
+          <div class="reward-content">
+            <div class="reward-title">خدمة مستشار شراء</div>
+            <div class="reward-points">600 نقطة</div>
+            <div class="reward-description">احصل على استشارة شخصية من مستشار شراء متخصص</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section">
+      <h2 class="section-title">أسئلة متكررة</h2>
+      <div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span>كيف أنضم لبرنامج الولاء؟</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">
+            الانضمام مجاني تماماً! ما عليك سوى إنشاء حساب وتسجيل الدخول. سيتم تفعيل برنامج الولاء تلقائياً لحسابك وستبدأ في كسب النقاط على الفور.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span>هل تنتهي النقاط بعد فترة معينة؟</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">
+            لا، نقاطك لن تنتهي أبداً طالما كان حسابك نشطاً. إذا لم تقم بأي نشاط لمدة سنتين، قد يتم إغلاق حسابك وفقدان النقاط.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span>كم من الوقت يستغرق تفعيل المكافآت؟</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">
+            تُفعّل معظم المكافآت فوراً بعد الاستبدال. قد يستغرق البعض (مثل الهدايا الفيزيائية) 2-3 أيام عمل للمعالجة.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span>هل يمكن نقل النقاط لشخص آخر؟</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">
+            لا، النقاط خاصة بحسابك فقط ولا يمكن نقلها. لكن يمكنك مشاركة الرابط الخاص بك مع الأصدقاء لكسب نقاط الإحالة.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span>كيف يمكنني رفع مستوى عضويتي؟</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">
+            يتم الترقية تلقائياً بناءً على عدد النقاط التي كسبتها. عندما تصل إلى الحد المطلوب للمستوى التالي، سيتم ترقيتك تلقائياً.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span>هل هناك رسوم لاستخدام برنامج الولاء؟</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">
+            لا بالتأكيد! برنامج الولاء مجاني تماماً. لا توجد رسوم إضافية أو تكاليف خفية.
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer style="background: #f5f7fa; padding: 3rem 1rem; text-align: center; color: #666; margin-top: 4rem;">
+    <p>&copy; 2024 متجرك الإلكتروني. جميع الحقوق محفوظة.</p>
+  </footer>
+
+  <script>
+    function toggleFAQ(element) {
+      const faqItem = element.parentElement;
+      
+      // Close all other items
+      document.querySelectorAll('.faq-item').forEach(item => {
+        if (item !== faqItem) {
+          item.classList.remove('active');
+        }
+      });
+      
+      // Toggle current item
+      faqItem.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>

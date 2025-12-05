@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حسابي - متجرك الإلكتروني</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .account-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .account-grid {
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .sidebar-account {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      height: fit-content;
+    }
+
+    .sidebar-account ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .sidebar-account li {
+      margin: 0.5rem 0;
+    }
+
+    .sidebar-account a {
+      display: block;
+      padding: 1rem;
+      color: #333;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .sidebar-account a:hover,
+    .sidebar-account a.active {
+      background: #667eea;
+      color: white;
+    }
+
+    .content-section {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .content-section h2 {
+      margin-top: 0;
+      color: #333;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+
+    .btn:hover {
+      background: #764ba2;
+    }
+
+    .orders-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    .orders-table th {
+      background: #f5f7fa;
+      padding: 1rem;
+      text-align: right;
+      border-bottom: 2px solid #667eea;
+    }
+
+    .orders-table td {
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    .order-status {
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .status-pending {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .status-completed {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .status-cancelled {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .wishlist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .wishlist-item {
+      background: white;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .wishlist-item:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .wishlist-item-img {
+      width: 100%;
+      height: 200px;
+      background: #f5f7fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wishlist-item-info {
+      padding: 1rem;
+    }
+
+    .wishlist-item-name {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    .wishlist-item-price {
+      color: #667eea;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .wishlist-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .wishlist-actions button {
+      flex: 1;
+      padding: 0.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .btn-add-cart {
+      background: #667eea;
+      color: white;
+    }
+
+    .btn-remove {
+      background: #f44336;
+      color: white;
+    }
+
+    .address-item {
+      border: 1px solid #ddd;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .address-item.default {
+      border-color: #667eea;
+      background: #f0f4ff;
+    }
+
+    .address-default-badge {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: #667eea;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 768px) {
+      .account-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .wishlist-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo">🛍️ متجرك الإلكتروني</div>
+        <ul class="nav-items">
+          <li><a href="/">الرئيسية</a></li>
+          <li><a href="/products">المنتجات</a></li>
+          <li><a href="/cart">السلة</a></li>
+          <li><a href="/account" class="active">حسابي</a></li>
+          <li><a href="/logout">خروج</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container account-container">
+    <h1>حسابي</h1>
+
+    <div class="account-grid">
+      <!-- Sidebar -->
+      <aside class="sidebar-account">
+        <ul>
+          <li><a class="menu-item active" onclick="showSection('profile')">الملف الشخصي</a></li>
+          <li><a class="menu-item" onclick="showSection('orders')">طلباتي</a></li>
+          <li><a class="menu-item" onclick="showSection('addresses')">عناويني</a></li>
+          <li><a class="menu-item" onclick="showSection('wishlist')">قائمة الرغبات</a></li>
+          <li><a class="menu-item" onclick="showSection('settings')">الإعدادات</a></li>
+        </ul>
+      </aside>
+
+      <!-- Content -->
+      <div>
+        <!-- Profile Section -->
+        <section id="profile" class="content-section">
+          <h2>الملف الشخصي</h2>
+          <form id="profileForm">
+            <div class="form-group">
+              <label>الاسم الأول</label>
+              <input type="text" id="firstName" required>
+            </div>
+            <div class="form-group">
+              <label>الاسم الأخير</label>
+              <input type="text" id="lastName" required>
+            </div>
+            <div class="form-group">
+              <label>البريد الإلكتروني</label>
+              <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+              <label>رقم الهاتف</label>
+              <input type="tel" id="phone" required>
+            </div>
+            <button type="submit" class="btn">حفظ التغييرات</button>
+          </form>
+        </section>
+
+        <!-- Orders Section -->
+        <section id="orders" class="content-section" style="display: none;">
+          <h2>طلباتي</h2>
+          <table class="orders-table">
+            <thead>
+              <tr>
+                <th>رقم الطلب</th>
+                <th>التاريخ</th>
+                <th>المبلغ</th>
+                <th>الحالة</th>
+                <th>الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="ordersBody">
+              <tr>
+                <td colspan="5" style="text-align: center;">جاري التحميل...</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Addresses Section -->
+        <section id="addresses" class="content-section" style="display: none;">
+          <h2>عناويني</h2>
+          <button class="btn" onclick="showAddAddressForm()">+ إضافة عنوان جديد</button>
+          <div id="addressesList" style="margin-top: 1.5rem;"></div>
+        </section>
+
+        <!-- Wishlist Section -->
+        <section id="wishlist" class="content-section" style="display: none;">
+          <h2>قائمة الرغبات</h2>
+          <div id="wishlistItems" class="wishlist-grid"></div>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="settings" class="content-section" style="display: none;">
+          <h2>الإعدادات</h2>
+          <h3>تغيير كلمة المرور</h3>
+          <form id="passwordForm">
+            <div class="form-group">
+              <label>كلمة المرور الحالية</label>
+              <input type="password" id="currentPassword" required>
+            </div>
+            <div class="form-group">
+              <label>كلمة المرور الجديدة</label>
+              <input type="password" id="newPassword" required>
+            </div>
+            <div class="form-group">
+              <label>تأكيد كلمة المرور</label>
+              <input type="password" id="confirmPassword" required>
+            </div>
+            <button type="submit" class="btn">تحديث كلمة المرور</button>
+          </form>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function showSection(sectionId) {
+      // Hide all sections
+      document.querySelectorAll('.content-section').forEach(section => {
+        section.style.display = 'none';
+      });
+      document.querySelectorAll('.menu-item').forEach(item => {
+        item.classList.remove('active');
+      });
+
+      // Show selected section
+      document.getElementById(sectionId).style.display = 'block';
+      event.target.classList.add('active');
+
+      // Load data
+      if (sectionId === 'orders') loadOrders();
+      if (sectionId === 'addresses') loadAddresses();
+      if (sectionId === 'wishlist') loadWishlist();
+    }
+
+    function loadOrders() {
+      // Load user orders from API
+      const ordersBody = document.getElementById('ordersBody');
+      ordersBody.innerHTML = `
+        <tr>
+          <td>#ORD001</td>
+          <td>2024-01-15</td>
+          <td>500 ر.س</td>
+          <td><span class="order-status status-completed">مكتمل</span></td>
+          <td><button class="btn" style="padding: 0.5rem 1rem;">التفاصيل</button></td>
+        </tr>
+      `;
+    }
+
+    function loadAddresses() {
+      // Load user addresses from API
+      const addressesList = document.getElementById('addressesList');
+      addressesList.innerHTML = `
+        <div class="address-item default">
+          <div class="address-default-badge">العنوان الافتراضي</div>
+          <p><strong>الاسم:</strong> أحمد محمد</p>
+          <p><strong>المدينة:</strong> الرياض</p>
+          <p><strong>العنوان:</strong> شارع التحلية، الرياض</p>
+          <p><strong>الهاتف:</strong> 0501234567</p>
+        </div>
+      `;
+    }
+
+    function loadWishlist() {
+      // Load wishlist items
+      const wishlistItems = document.getElementById('wishlistItems');
+      wishlistItems.innerHTML = `
+        <div class="wishlist-item">
+          <div class="wishlist-item-img">صورة المنتج</div>
+          <div class="wishlist-item-info">
+            <div class="wishlist-item-name">منتج 1</div>
+            <div class="wishlist-item-price">250 ر.س</div>
+            <div class="wishlist-actions">
+              <button class="btn-add-cart">أضف للسلة</button>
+              <button class="btn-remove">حذف</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Profile Form
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      // Submit profile update
+      alert('تم تحديث الملف الشخصي بنجاح');
+    });
+
+    // Password Form
+    document.getElementById('passwordForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      // Submit password change
+      alert('تم تغيير كلمة المرور بنجاح');
+    });
+  </script>
+</body>
+</html>

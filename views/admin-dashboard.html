@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة تحكم المشرف</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
+      direction: rtl;
+    }
+
+    .dashboard-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 2rem 0;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+      right: 0;
+    }
+
+    .logo {
+      padding: 1.5rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 2rem;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .nav-items {
+      list-style: none;
+    }
+
+    .nav-items li {
+      margin: 0.5rem 0;
+    }
+
+    .nav-items a {
+      display: block;
+      padding: 1rem 1.5rem;
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .nav-items a:hover,
+    .nav-items a.active {
+      color: white;
+      background: rgba(255, 255, 255, 0.1);
+      border-right: 3px solid white;
+      padding-right: 1.2rem;
+    }
+
+    .main-content {
+      margin-right: 250px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      background: white;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .topbar-left h1 {
+      font-size: 1.5rem;
+      color: #333;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logout-btn {
+      padding: 0.5rem 1rem;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .logout-btn:hover {
+      background: #764ba2;
+    }
+
+    .content {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: all 0.3s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .stat-card .number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #667eea;
+      margin: 0.5rem 0;
+    }
+
+    .stat-card .label {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      color: #333;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #667eea;
+    }
+
+    .table-container {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: #f5f7fa;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    th {
+      padding: 1rem;
+      text-align: right;
+      color: #333;
+      font-weight: 600;
+    }
+
+    td {
+      padding: 1rem;
+      border-bottom: 1px solid #e0e0e0;
+      color: #666;
+    }
+
+    tbody tr:hover {
+      background: #f9f9f9;
+    }
+
+    .action-btn {
+      padding: 0.5rem 0.8rem;
+      margin: 0 0.3rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+
+    .edit-btn {
+      background: #667eea;
+      color: white;
+    }
+
+    .delete-btn {
+      background: #f44336;
+      color: white;
+    }
+
+    .action-btn:hover {
+      opacity: 0.8;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #333;
+      font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .submit-btn {
+      padding: 0.75rem 1.5rem;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+
+    .submit-btn:hover {
+      background: #764ba2;
+    }
+
+    .alert {
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    .alert.show {
+      display: block;
+    }
+
+    .alert-success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .alert-error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 0;
+      }
+
+      .main-content {
+        margin-right: 0;
+      }
+
+      .topbar {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">👨‍💼 المشرف</div>
+      <ul class="nav-items">
+        <li><a onclick="showSection('dashboard')" class="nav-link active">لوحة التحكم</a></li>
+        <li><a onclick="showSection('users')" class="nav-link">إدارة المستخدمين</a></li>
+        <li><a onclick="showSection('products')" class="nav-link">إدارة المنتجات</a></li>
+        <li><a onclick="showSection('admins')" class="nav-link">إدارة المشرفين</a></li>
+        <li><a onclick="showSection('profile')" class="nav-link">ملفي الشخصي</a></li>
+        <li><a onclick="logout()" class="nav-link">تسجيل الخروج</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Topbar -->
+      <div class="topbar">
+        <div class="topbar-left">
+          <h1 id="pageTitle">لوحة التحكم</h1>
+        </div>
+        <div class="topbar-right">
+          <div class="user-info">
+            <span id="adminName">المشرف</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content Area -->
+      <div class="content">
+        <div class="alert" id="alert"></div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="section active">
+          <h2 class="section-title">لوحة التحكم</h2>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="label">إجمالي المستخدمين</div>
+              <div class="number" id="totalUsers">0</div>
+            </div>
+            <div class="stat-card">
+              <div class="label">إجمالي المنتجات</div>
+              <div class="number" id="totalProducts">0</div>
+            </div>
+            <div class="stat-card">
+              <div class="label">إجمالي الطلبات</div>
+              <div class="number" id="totalOrders">0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Users Section -->
+        <div id="users" class="section">
+          <h2 class="section-title">إدارة المستخدمين</h2>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>الاسم</th>
+                  <th>البريد الإلكتروني</th>
+                  <th>الهاتف</th>
+                  <th>تاريخ التسجيل</th>
+                  <th>الإجراءات</th>
+                </tr>
+              </thead>
+              <tbody id="usersTableBody">
+                <tr>
+                  <td colspan="5" style="text-align: center;">جاري التحميل...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Products Section -->
+        <div id="products" class="section">
+          <h2 class="section-title">إدارة المنتجات</h2>
+          <button class="submit-btn" onclick="showAddProductForm()">+ إضافة منتج جديد</button>
+          <br><br>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>اسم المنتج</th>
+                  <th>السعر</th>
+                  <th>المخزون</th>
+                  <th>التصنيف</th>
+                  <th>الإجراءات</th>
+                </tr>
+              </thead>
+              <tbody id="productsTableBody">
+                <tr>
+                  <td colspan="5" style="text-align: center;">جاري التحميل...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Admins Section -->
+        <div id="admins" class="section">
+          <h2 class="section-title">إدارة المشرفين</h2>
+          <button class="submit-btn" onclick="showAddAdminForm()">+ إضافة مشرف جديد</button>
+          <br><br>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>اسم المستخدم</th>
+                  <th>الاسم الكامل</th>
+                  <th>البريد الإلكتروني</th>
+                  <th>النوع</th>
+                  <th>الإجراءات</th>
+                </tr>
+              </thead>
+              <tbody id="adminsTableBody">
+                <tr>
+                  <td colspan="5" style="text-align: center;">جاري التحميل...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Profile Section -->
+        <div id="profile" class="section">
+          <h2 class="section-title">ملفي الشخصي</h2>
+          <div style="max-width: 500px;">
+            <form id="profileForm" onsubmit="updateProfile(event)">
+              <div class="form-group">
+                <label>اسم المستخدم</label>
+                <input type="text" id="profileUsername" disabled>
+              </div>
+              <div class="form-group">
+                <label>الاسم الكامل</label>
+                <input type="text" id="profileFullName" required>
+              </div>
+              <div class="form-group">
+                <label>البريد الإلكتروني</label>
+                <input type="email" id="profileEmail" required>
+              </div>
+              <div class="form-group">
+                <label>رقم الهاتف</label>
+                <input type="tel" id="profilePhone" required>
+              </div>
+              <button type="submit" class="submit-btn">حفظ التغييرات</button>
+            </form>
+            <hr style="margin: 2rem 0;">
+            <h3>تغيير كلمة المرور</h3>
+            <form id="passwordForm" onsubmit="changePassword(event)">
+              <div class="form-group">
+                <label>كلمة المرور الحالية</label>
+                <input type="password" id="oldPassword" required>
+              </div>
+              <div class="form-group">
+                <label>كلمة المرور الجديدة</label>
+                <input type="password" id="newPassword" required>
+              </div>
+              <div class="form-group">
+                <label>تأكيد كلمة المرور الجديدة</label>
+                <input type="password" id="confirmPassword" required>
+              </div>
+              <button type="submit" class="submit-btn">تغيير كلمة المرور</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Check authentication
+    function checkAuth() {
+      const token = localStorage.getItem('adminToken');
+      if (!token) {
+        window.location.href = '/admin/login';
+      }
+    }
+
+    // Load admin data
+    async function loadAdminData() {
+      checkAuth();
+      const token = localStorage.getItem('adminToken');
+      const admin = JSON.parse(localStorage.getItem('adminUser') || '{}');
+      
+      document.getElementById('adminName').textContent = admin.fullName || 'المشرف';
+      
+      loadDashboard();
+    }
+
+    // Load Dashboard Stats
+    async function loadDashboard() {
+      try {
+        const token = localStorage.getItem('adminToken');
+        const response = await fetch('/api/admin/dashboard', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) throw new Error('فشل تحميل البيانات');
+        
+        const data = await response.json();
+        if (data.success) {
+          document.getElementById('totalUsers').textContent = data.stats.totalUsers;
+          document.getElementById('totalProducts').textContent = data.stats.totalProducts;
+          document.getElementById('totalOrders').textContent = data.stats.totalOrders;
+        }
+      } catch (error) {
+        console.error('Error loading dashboard:', error);
+      }
+    }
+
+    // Show section
+    function showSection(sectionId) {
+      // Hide all sections
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+      
+      // Show selected section
+      document.getElementById(sectionId).classList.add('active');
+      event.target.classList.add('active');
+      
+      // Update page title
+      const titles = {
+        'dashboard': 'لوحة التحكم',
+        'users': 'إدارة المستخدمين',
+        'products': 'إدارة المنتجات',
+        'admins': 'إدارة المشرفين',
+        'profile': 'ملفي الشخصي'
+      };
+      document.getElementById('pageTitle').textContent = titles[sectionId];
+      
+      // Load data for specific sections
+      if (sectionId === 'users') loadUsers();
+      if (sectionId === 'products') loadProducts();
+      if (sectionId === 'admins') loadAdmins();
+      if (sectionId === 'profile') loadProfile();
+    }
+
+    // Load Users
+    async function loadUsers() {
+      try {
+        const token = localStorage.getItem('adminToken');
+        const response = await fetch('/api/admin/users', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) throw new Error('فشل تحميل المستخدمين');
+        
+        const data = await response.json();
+        const tbody = document.getElementById('usersTableBody');
+        
+        if (data.users && data.users.length > 0) {
+          tbody.innerHTML = data.users.map(user => `
+            <tr>
+              <td>${user.firstName} ${user.lastName}</td>
+              <td>${user.email}</td>
+              <td>${user.phone}</td>
+              <td>${new Date(user.createdAt).toLocaleDateString('ar-SA')}</td>
+              <td>
+                <button class="action-btn edit-btn" onclick="editUser('${user._id}')">تعديل</button>
+                <button class="action-btn delete-btn" onclick="deleteUser('${user._id}')">حذف</button>
+              </td>
+            </tr>
+          `).join('');
+        } else {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">لا توجد مستخدمين</td></tr>';
+        }
+      } catch (error) {
+        showAlert('فشل تحميل المستخدمين: ' + error.message, 'error');
+      }
+    }
+
+    // Load Products
+    async function loadProducts() {
+      try {
+        const token = localStorage.getItem('adminToken');
+        const response = await fetch('/api/admin/products', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) throw new Error('فشل تحميل المنتجات');
+        
+        const data = await response.json();
+        const tbody = document.getElementById('productsTableBody');
+        
+        if (data.products && data.products.length > 0) {
+          tbody.innerHTML = data.products.map(product => `
+            <tr>
+              <td>${product.name}</td>
+              <td>$${product.price}</td>
+              <td>${product.stock}</td>
+              <td>${product.category}</td>
+              <td>
+                <button class="action-btn edit-btn" onclick="editProduct('${product._id}')">تعديل</button>
+                <button class="action-btn delete-btn" onclick="deleteProduct('${product._id}')">حذف</button>
+              </td>
+            </tr>
+          `).join('');
+        } else {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">لا توجد منتجات</td></tr>';
+        }
+      } catch (error) {
+        showAlert('فشل تحميل المنتجات: ' + error.message, 'error');
+      }
+    }
+
+    // Load Admins
+    async function loadAdmins() {
+      try {
+        const token = localStorage.getItem('adminToken');
+        const response = await fetch('/api/admin/admins', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) throw new Error('فشل تحميل المشرفين');
+        
+        const data = await response.json();
+        const tbody = document.getElementById('adminsTableBody');
+        
+        if (data.admins && data.admins.length > 0) {
+          tbody.innerHTML = data.admins.map(admin => `
+            <tr>
+              <td>${admin.username}</td>
+              <td>${admin.fullName}</td>
+              <td>${admin.email}</td>
+              <td>${admin.role === 'super_admin' ? 'مشرف عام' : 'مشرف'}</td>
+              <td>
+                <button class="action-btn edit-btn" onclick="editAdmin('${admin._id}')">تعديل</button>
+                <button class="action-btn delete-btn" onclick="deleteAdmin('${admin._id}')">حذف</button>
+              </td>
+            </tr>
+          `).join('');
+        } else {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">لا يوجد مشرفين</td></tr>';
+        }
+      } catch (error) {
+        showAlert('فشل تحميل المشرفين: ' + error.message, 'error');
+      }
+    }
+
+    // Load Profile
+    async function loadProfile() {
+      try {
+        const token = localStorage.getItem('adminToken');
+        const response = await fetch('/api/admin/me', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) throw new Error('فشل تحميل الملف الشخصي');
+        
+        const data = await response.json();
+        const admin = data.admin;
+        
+        document.getElementById('profileUsername').value = admin.username;
+        document.getElementById('profileFullName').value = admin.fullName;
+        document.getElementById('profileEmail').value = admin.email;
+        document.getElementById('profilePhone').value = admin.phone;
+      } catch (error) {
+        showAlert('فشل تحميل الملف الشخصي: ' + error.message, 'error');
+      }
+    }
+
+    // Update Profile
+    async function updateProfile(e) {
+      e.preventDefault();
+      try {
+        const token = localStorage.getItem('adminToken');
+        const response = await fetch('/api/admin/profile', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            fullName: document.getElementById('profileFullName').value,
+            email: document.getElementById('profileEmail').value,
+            phone: document.getElementById('profilePhone').value
+          })
+        });
+
+        const data = await response.json();
+        if (data.success) {
+          showAlert('تم تحديث الملف الشخصي بنجاح', 'success');
+        } else {
+          throw new Error(data.message);
+        }
+      } catch (error) {
+        showAlert('فشل تحديث الملف الشخصي: ' + error.message, 'error');
+      }
+    }
+
+    // Change Password
+    async function changePassword(e) {
+      e.preventDefault();
+      
+      const newPassword = document.getElementById('newPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      
+      if (newPassword !== confirmPassword) {
+        showAlert('كلمات المرور غير متطابقة', 'error');
+        return;
+      }
+
+      try {
+        const token = localStorage.getItem('adminToken');
+        const response = await fetch('/api/admin/change-password', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            oldPassword: document.getElementById('oldPassword').value,
+            newPassword: newPassword,
+            confirmPassword: confirmPassword
+          })
+        });
+
+        const data = await response.json();
+        if (data.success) {
+          showAlert('تم تغيير كلمة المرور بنجاح', 'success');
+          document.getElementById('passwordForm').reset();
+        } else {
+          throw new Error(data.message);
+        }
+      } catch (error) {
+        showAlert('فشل تغيير كلمة المرور: ' + error.message, 'error');
+      }
+    }
+
+    // Delete User
+    async function deleteUser(userId) {
+      if (confirm('هل أنت متأكد من حذف هذا المستخدم؟')) {
+        try {
+          const token = localStorage.getItem('adminToken');
+          const response = await fetch(`/api/admin/users/${userId}`, {
+            method: 'DELETE',
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+
+          const data = await response.json();
+          if (data.success) {
+            showAlert('تم حذف المستخدم بنجاح', 'success');
+            loadUsers();
+          } else {
+            throw new Error(data.message);
+          }
+        } catch (error) {
+          showAlert('فشل حذف المستخدم: ' + error.message, 'error');
+        }
+      }
+    }
+
+    // Delete Product
+    async function deleteProduct(productId) {
+      if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
+        try {
+          const token = localStorage.getItem('adminToken');
+          const response = await fetch(`/api/admin/products/${productId}`, {
+            method: 'DELETE',
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+
+          const data = await response.json();
+          if (data.success) {
+            showAlert('تم حذف المنتج بنجاح', 'success');
+            loadProducts();
+          } else {
+            throw new Error(data.message);
+          }
+        } catch (error) {
+          showAlert('فشل حذف المنتج: ' + error.message, 'error');
+        }
+      }
+    }
+
+    // Delete Admin
+    async function deleteAdmin(adminId) {
+      if (confirm('هل أنت متأكد من حذف هذا المشرف؟')) {
+        try {
+          const token = localStorage.getItem('adminToken');
+          const response = await fetch(`/api/admin/admins/${adminId}`, {
+            method: 'DELETE',
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+
+          const data = await response.json();
+          if (data.success) {
+            showAlert('تم حذف المشرف بنجاح', 'success');
+            loadAdmins();
+          } else {
+            throw new Error(data.message);
+          }
+        } catch (error) {
+          showAlert('فشل حذف المشرف: ' + error.message, 'error');
+        }
+      }
+    }
+
+    // Logout
+    async function logout() {
+      try {
+        const token = localStorage.getItem('adminToken');
+        await fetch('/api/admin/logout', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+      } catch (error) {
+        console.error('Logout error:', error);
+      } finally {
+        localStorage.removeItem('adminToken');
+        localStorage.removeItem('adminUser');
+        window.location.href = '/admin/login';
+      }
+    }
+
+    // Show Alert
+    function showAlert(message, type) {
+      const alert = document.getElementById('alert');
+      alert.textContent = message;
+      alert.className = `alert show alert-${type}`;
+      setTimeout(() => {
+        alert.classList.remove('show');
+      }, 5000);
+    }
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', loadAdminData);
+  </script>
+</body>
+</html>

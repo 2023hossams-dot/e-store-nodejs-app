@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>التصنيفات - متجرك الإلكتروني</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .categories-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .page-header h1 {
+      color: #333;
+      font-size: 2.5rem;
+      margin: 0 0 0.5rem;
+    }
+
+    .page-header p {
+      color: #666;
+      font-size: 1.1rem;
+    }
+
+    .main-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+
+    .category-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .category-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .category-image {
+      width: 100%;
+      height: 250px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .category-card:nth-child(2) .category-image {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .category-card:nth-child(3) .category-image {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .category-card:nth-child(4) .category-image {
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    }
+
+    .category-card:nth-child(5) .category-image {
+      background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    }
+
+    .category-card:nth-child(6) .category-image {
+      background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+    }
+
+    .category-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: flex-end;
+      padding: 1.5rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .category-card:hover .category-overlay {
+      opacity: 1;
+    }
+
+    .category-content {
+      padding: 1.5rem;
+    }
+
+    .category-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #333;
+      margin: 0 0 0.5rem;
+    }
+
+    .category-count {
+      color: #999;
+      font-size: 0.9rem;
+      margin: 0;
+    }
+
+    .category-link {
+      display: inline-block;
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 1rem;
+      transition: color 0.3s;
+    }
+
+    .category-link:hover {
+      color: #764ba2;
+    }
+
+    /* Featured Categories Section */
+    .featured-section {
+      margin-bottom: 4rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .featured-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .featured-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    .featured-card:hover {
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .featured-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 2rem 1.5rem;
+      color: white;
+      text-align: center;
+    }
+
+    .featured-card:nth-child(2) .featured-header {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .featured-card:nth-child(3) .featured-header {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .featured-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .featured-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .featured-body {
+      padding: 2rem 1.5rem;
+    }
+
+    .featured-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .featured-list li {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #eee;
+      color: #666;
+    }
+
+    .featured-list li:last-child {
+      border-bottom: none;
+    }
+
+    .featured-list a {
+      color: #667eea;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .featured-list a:hover {
+      color: #764ba2;
+    }
+
+    .featured-footer {
+      padding: 0 1.5rem 1.5rem;
+      text-align: center;
+    }
+
+    .btn-browse {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 0.75rem 2rem;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-browse:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    /* Subcategories Section */
+    .subcategories-section {
+      margin-bottom: 4rem;
+    }
+
+    .subcategories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .subcategory-item {
+      padding: 1.5rem;
+      background: white;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .subcategory-item:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      transform: translateY(-3px);
+    }
+
+    .subcategory-icon {
+      font-size: 2rem;
+    }
+
+    .subcategory-name {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .subcategory-count {
+      color: #999;
+      font-size: 0.85rem;
+    }
+
+    /* Special Offers Section */
+    .offers-section {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 12px;
+      padding: 3rem 2rem;
+      color: white;
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .offers-section h2 {
+      margin: 0 0 1rem;
+      font-size: 2rem;
+    }
+
+    .offers-section p {
+      margin: 0 0 2rem;
+      font-size: 1.1rem;
+      opacity: 0.95;
+    }
+
+    .offers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .offer-item {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1.5rem;
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .offer-discount {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .offer-text {
+      margin: 0;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 768px) {
+      .main-categories {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+      }
+
+      .category-image {
+        height: 150px;
+        font-size: 2rem;
+      }
+
+      .page-header h1 {
+        font-size: 1.8rem;
+      }
+
+      .featured-categories {
+        grid-template-columns: 1fr;
+      }
+
+      .offers-section {
+        padding: 2rem 1rem;
+      }
+
+      .offers-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo">🛍️ متجرك الإلكتروني</div>
+        <ul class="nav-items">
+          <li><a href="/">الرئيسية</a></li>
+          <li><a href="/products">المنتجات</a></li>
+          <li><a href="/cart">السلة</a></li>
+          <li><a href="/account">حسابي</a></li>
+          <li><a href="/logout">خروج</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="categories-container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1>اكتشف فئاتنا</h1>
+      <p>تصفح مجموعتنا الواسعة من المنتجات عالية الجودة</p>
+    </div>
+
+    <!-- Main Categories -->
+    <div class="main-categories">
+      <div class="category-card">
+        <div class="category-image">
+          👕
+          <div class="category-overlay">
+            <a href="#" style="color: white; text-decoration: none; width: 100%;">
+              عرض الكل (245)
+            </a>
+          </div>
+        </div>
+        <div class="category-content">
+          <h3 class="category-name">الملابس</h3>
+          <p class="category-count">245 منتج</p>
+          <a href="#" class="category-link">استكشف →</a>
+        </div>
+      </div>
+
+      <div class="category-card">
+        <div class="category-image">
+          👟
+          <div class="category-overlay">
+            <a href="#" style="color: white; text-decoration: none; width: 100%;">
+              عرض الكل (180)
+            </a>
+          </div>
+        </div>
+        <div class="category-content">
+          <h3 class="category-name">الأحذية</h3>
+          <p class="category-count">180 منتج</p>
+          <a href="#" class="category-link">استكشف →</a>
+        </div>
+      </div>
+
+      <div class="category-card">
+        <div class="category-image">
+          ⌚
+          <div class="category-overlay">
+            <a href="#" style="color: white; text-decoration: none; width: 100%;">
+              عرض الكل (95)
+            </a>
+          </div>
+        </div>
+        <div class="category-content">
+          <h3 class="category-name">الإكسسوارات</h3>
+          <p class="category-count">95 منتج</p>
+          <a href="#" class="category-link">استكشف →</a>
+        </div>
+      </div>
+
+      <div class="category-card">
+        <div class="category-image">
+          💼
+          <div class="category-overlay">
+            <a href="#" style="color: white; text-decoration: none; width: 100%;">
+              عرض الكل (120)
+            </a>
+          </div>
+        </div>
+        <div class="category-content">
+          <h3 class="category-name">الحقائب</h3>
+          <p class="category-count">120 منتج</p>
+          <a href="#" class="category-link">استكشف →</a>
+        </div>
+      </div>
+
+      <div class="category-card">
+        <div class="category-image">
+          💄
+          <div class="category-overlay">
+            <a href="#" style="color: white; text-decoration: none; width: 100%;">
+              عرض الكل (165)
+            </a>
+          </div>
+        </div>
+        <div class="category-content">
+          <h3 class="category-name">مستحضرات العناية</h3>
+          <p class="category-count">165 منتج</p>
+          <a href="#" class="category-link">استكشف →</a>
+        </div>
+      </div>
+
+      <div class="category-card">
+        <div class="category-image">
+          📚
+          <div class="category-overlay">
+            <a href="#" style="color: white; text-decoration: none; width: 100%;">
+              عرض الكل (80)
+            </a>
+          </div>
+        </div>
+        <div class="category-content">
+          <h3 class="category-name">الكتب والمجلات</h3>
+          <p class="category-count">80 منتج</p>
+          <a href="#" class="category-link">استكشف →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Featured Categories -->
+    <div class="featured-section">
+      <h2 class="section-title">التصنيفات المميزة</h2>
+      <div class="featured-categories">
+        <div class="featured-card">
+          <div class="featured-header">
+            <div class="featured-icon">👕</div>
+            <div class="featured-name">الملابس الرجالية</div>
+          </div>
+          <div class="featured-body">
+            <ul class="featured-list">
+              <li><a href="#">قمصان</a></li>
+              <li><a href="#">بنطلونات</a></li>
+              <li><a href="#">معاطف</a></li>
+              <li><a href="#">سترات</a></li>
+              <li><a href="#">ملابس داخلية</a></li>
+            </ul>
+          </div>
+          <div class="featured-footer">
+            <button class="btn-browse">تصفح الكل</button>
+          </div>
+        </div>
+
+        <div class="featured-card">
+          <div class="featured-header">
+            <div class="featured-icon">👗</div>
+            <div class="featured-name">الملابس النسائية</div>
+          </div>
+          <div class="featured-body">
+            <ul class="featured-list">
+              <li><a href="#">فساتين</a></li>
+              <li><a href="#">تنانير</a></li>
+              <li><a href="#">بلوزات</a></li>
+              <li><a href="#">جاكيتات</a></li>
+              <li><a href="#">تيشيرتات</a></li>
+            </ul>
+          </div>
+          <div class="featured-footer">
+            <button class="btn-browse">تصفح الكل</button>
+          </div>
+        </div>
+
+        <div class="featured-card">
+          <div class="featured-header">
+            <div class="featured-icon">👶</div>
+            <div class="featured-name">ملابس الأطفال</div>
+          </div>
+          <div class="featured-body">
+            <ul class="featured-list">
+              <li><a href="#">أطفال رضع</a></li>
+              <li><a href="#">أطفال صغار</a></li>
+              <li><a href="#">أطفال</a></li>
+              <li><a href="#">ملابس رياضية</a></li>
+              <li><a href="#">ملابس نوم</a></li>
+            </ul>
+          </div>
+          <div class="featured-footer">
+            <button class="btn-browse">تصفح الكل</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Special Offers Section -->
+    <div class="offers-section">
+      <h2>عروض خاصة هذا الأسبوع</h2>
+      <p>استمتع بخصومات رائعة على مختلف الفئات</p>
+      <div class="offers-grid">
+        <div class="offer-item">
+          <div class="offer-discount">50%</div>
+          <p class="offer-text">على الملابس الرجالية</p>
+        </div>
+        <div class="offer-item">
+          <div class="offer-discount">40%</div>
+          <p class="offer-text">على الأحذية</p>
+        </div>
+        <div class="offer-item">
+          <div class="offer-discount">30%</div>
+          <p class="offer-text">على الإكسسوارات</p>
+        </div>
+        <div class="offer-item">
+          <div class="offer-discount">25%</div>
+          <p class="offer-text">على مستحضرات العناية</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subcategories -->
+    <div class="subcategories-section">
+      <h2 class="section-title">الفئات الفرعية</h2>
+      <div class="subcategories-grid">
+        <a href="#" class="subcategory-item">
+          <div class="subcategory-icon">👕</div>
+          <div class="subcategory-name">قمصان</div>
+          <div class="subcategory-count">45 منتج</div>
+        </a>
+        <a href="#" class="subcategory-item">
+          <div class="subcategory-icon">🩳</div>
+          <div class="subcategory-name">شورتات</div>
+          <div class="subcategory-count">32 منتج</div>
+        </a>
+        <a href="#" class="subcategory-item">
+          <div class="subcategory-icon">👔</div>
+          <div class="subcategory-name">ربطات عنق</div>
+          <div class="subcategory-count">28 منتج</div>
+        </a>
+        <a href="#" class="subcategory-item">
+          <div class="subcategory-icon">🧢</div>
+          <div class="subcategory-name">قبعات</div>
+          <div class="subcategory-count">52 منتج</div>
+        </a>
+        <a href="#" class="subcategory-item">
+          <div class="subcategory-icon">👜</div>
+          <div class="subcategory-name">حقائب يد</div>
+          <div class="subcategory-count">67 منتج</div>
+        </a>
+        <a href="#" class="subcategory-item">
+          <div class="subcategory-icon">🧣</div>
+          <div class="subcategory-name">أوشحة</div>
+          <div class="subcategory-count">38 منتج</div>
+        </a>
+        <a href="#" class="subcategory-item">
+          <div class="subcategory-icon">🕶️</div>
+          <div class="subcategory-name">نظارات شمسية</div>
+          <div class="subcategory-count">44 منتج</div>
+        </a>
+        <a href="#" class="subcategory-item">
+          <div class="subcategory-icon">⌚</div>
+          <div class="subcategory-name">ساعات</div>
+          <div class="subcategory-count">55 منتج</div>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer style="background: #f5f7fa; padding: 3rem 1rem; text-align: center; color: #666; margin-top: 4rem;">
+    <p>&copy; 2024 متجرك الإلكتروني. جميع الحقوق محفوظة.</p>
+  </footer>
+</body>
+</html>

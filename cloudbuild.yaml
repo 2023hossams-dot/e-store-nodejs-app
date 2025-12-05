@@ -1,0 +1,29 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/e-store-app:$SHORT_SHA', '.' ]
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'push', 'gcr.io/$PROJECT_ID/e-store-app:$SHORT_SHA' ]
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'e-store-app'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/e-store-app:$SHORT_SHA'
+      - '--region'
+      - '${_REGION}'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+
+substitutions:
+  _REGION: "us-central1"
+  _PROJECT_ID: "e-store-prod-123"
+
+# NOTE: Replace e-store-prod-123 with your actual GCP project ID
+# Replace us-central1 with your preferred region if needed
+
+timeout: 1200s

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>خدماتنا - متجرك الإلكتروني</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .services-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .page-header h1 {
+      color: #333;
+      font-size: 2.5rem;
+      margin: 0 0 0.5rem;
+    }
+
+    .page-header p {
+      color: #666;
+      font-size: 1.1rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .service-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .service-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 2rem;
+      color: white;
+      text-align: center;
+    }
+
+    .service-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .service-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .service-body {
+      padding: 2rem;
+    }
+
+    .service-description {
+      color: #666;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .service-features {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .service-features li {
+      padding: 0.5rem 0;
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .service-features li:before {
+      content: "✓ ";
+      color: #667eea;
+      font-weight: 700;
+      margin-right: 0.5rem;
+    }
+
+    .section {
+      margin-bottom: 4rem;
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      color: #333;
+      margin-bottom: 2rem;
+      text-align: center;
+      position: relative;
+      padding-bottom: 1rem;
+    }
+
+    .section-title:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: #667eea;
+      border-radius: 2px;
+    }
+
+    /* Premium Services */
+    .premium-section {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 3rem 2rem;
+      border-radius: 12px;
+      margin-bottom: 3rem;
+    }
+
+    .premium-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .premium-card {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+    }
+
+    .premium-card h3 {
+      margin: 0 0 1rem;
+      font-size: 1.2rem;
+    }
+
+    .premium-card p {
+      margin: 0;
+      opacity: 0.95;
+    }
+
+    /* Comparison Table */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+    }
+
+    .comparison-table th {
+      background: #667eea;
+      color: white;
+      padding: 1rem;
+      text-align: right;
+      font-weight: 700;
+    }
+
+    .comparison-table td {
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+      color: #666;
+    }
+
+    .comparison-table tr:hover {
+      background: #f5f7fa;
+    }
+
+    .check {
+      color: #4caf50;
+      font-weight: 700;
+    }
+
+    .cross {
+      color: #f44336;
+      font-weight: 700;
+    }
+
+    /* CTA */
+    .cta-section {
+      background: white;
+      border: 2px solid #667eea;
+      padding: 2rem;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .cta-section h2 {
+      color: #333;
+      margin: 0 0 1rem;
+    }
+
+    .cta-section p {
+      color: #666;
+      margin: 0 0 2rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .badge {
+      display: inline-block;
+      background: #f44336;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .page-header h1 {
+        font-size: 1.8rem;
+      }
+
+      .section-title {
+        font-size: 1.6rem;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .comparison-table {
+        font-size: 0.9rem;
+      }
+
+      .comparison-table th,
+      .comparison-table td {
+        padding: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo">🛍️ متجرك الإلكتروني</div>
+        <ul class="nav-items">
+          <li><a href="/">الرئيسية</a></li>
+          <li><a href="/products">المنتجات</a></li>
+          <li><a href="/services">الخدمات</a></li>
+          <li><a href="/cart">السلة</a></li>
+          <li><a href="/account">حسابي</a></li>
+          <li><a href="/logout">خروج</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="services-container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1>خدماتنا المتميزة</h1>
+      <p>استمتع بأفضل الخدمات والحلول المتقدمة</p>
+    </div>
+
+    <!-- Main Services Section -->
+    <section class="section">
+      <h2 class="section-title">خدماتنا الرئيسية</h2>
+      <div class="services-grid">
+        <!-- Service 1: Fast Delivery -->
+        <div class="service-card">
+          <div class="service-header">
+            <div class="service-icon">🚚</div>
+            <h3 class="service-title">توصيل سريع</h3>
+          </div>
+          <div class="service-body">
+            <p class="service-description">
+              توصيل فوري لجميع الطلبات في أسرع وقت ممكن
+            </p>
+            <ul class="service-features">
+              <li>توصيل خلال 24 ساعة</li>
+              <li>تتبع فوري للطلبية</li>
+              <li>شحن مؤمن 100%</li>
+              <li>توصيل للعنوان المحدد</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Service 2: Customer Support -->
+        <div class="service-card">
+          <div class="service-header">
+            <div class="service-icon">📞</div>
+            <h3 class="service-title">دعم 24/7</h3>
+          </div>
+          <div class="service-body">
+            <p class="service-description">
+              فريق دعم محترف متاح طول الوقت لمساعدتك
+            </p>
+            <ul class="service-features">
+              <li>دعم على مدار الساعة</li>
+              <li>رد سريع على الاستفسارات</li>
+              <li>حل المشاكل بسرعة</li>
+              <li>ضمان رضاك التام</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Service 3: Secure Payment -->
+        <div class="service-card">
+          <div class="service-header">
+            <div class="service-icon">🔒</div>
+            <h3 class="service-title">دفع آمن</h3>
+          </div>
+          <div class="service-body">
+            <p class="service-description">
+              طرق دفع آمنة وموثوقة بأعلى معايير الأمان
+            </p>
+            <ul class="service-features">
+              <li>تشفير 256-بت SSL</li>
+              <li>طرق دفع متعددة</li>
+              <li>حماية بيانات عالية</li>
+              <li>سياسة استرجاع سهلة</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Service 4: Free Returns -->
+        <div class="service-card">
+          <div class="service-header">
+            <div class="service-icon">↩️</div>
+            <h3 class="service-title">إرجاع مجاني</h3>
+          </div>
+          <div class="service-body">
+            <p class="service-description">
+              إرجاع سهل وسريع بدون أي رسوم إضافية
+            </p>
+            <ul class="service-features">
+              <li>إرجاع مجاني لمدة 30 يوم</li>
+              <li>بدون أسباب</li>
+              <li>استرجاع أموال سريع</li>
+              <li>عملية سهلة وسريعة</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Service 5: Warranty -->
+        <div class="service-card">
+          <div class="service-header">
+            <div class="service-icon">✨</div>
+            <h3 class="service-title">ضمان شامل</h3>
+          </div>
+          <div class="service-body">
+            <p class="service-description">
+              ضمان شامل على جميع المنتجات
+            </p>
+            <ul class="service-features">
+              <li>ضمان 12 شهر</li>
+              <li>تغطية كاملة</li>
+              <li>استبدال مجاني</li>
+              <li>دعم تقني كامل</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Service 6: Member Benefits -->
+        <div class="service-card">
+          <div class="service-header">
+            <div class="service-icon">🎁</div>
+            <h3 class="service-title">مميزات العضوية</h3>
+          </div>
+          <div class="service-body">
+            <p class="service-description">
+              استمتع بمميزات حصرية كعضو في متجرنا
+            </p>
+            <ul class="service-features">
+              <li>نقاط ولاء مع كل شراء</li>
+              <li>عروض حصرية</li>
+              <li>تخفيف شحن مجاني</li>
+              <li>تصفية أولويتية</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Premium Services -->
+    <section class="section">
+      <h2 class="section-title">الخدمات المميزة</h2>
+      <div class="premium-section">
+        <h3 style="text-align: center; margin: 0 0 2rem;">احصل على تجربة شراء استثنائية</h3>
+        <div class="premium-grid">
+          <div class="premium-card">
+            <h3>🌐 التسوق العالمي</h3>
+            <p>شحن إلى أي مكان في العالم مع تتبع فوري وتأمين كامل</p>
+          </div>
+          <div class="premium-card">
+            <h3>💳 برنامج الولاء</h3>
+            <p>اكسب نقاط مع كل عملية شراء واستبدلها برخص وعروض</p>
+          </div>
+          <div class="premium-card">
+            <h3>🎯 التسويق الشخصي</h3>
+            <p>احصل على توصيات شخصية بناءً على تفضيلاتك</p>
+          </div>
+          <div class="premium-card">
+            <h3>📱 تطبيق الجوال</h3>
+            <p>تطبيق متقدم للتسوق بسهولة من أي مكان</p>
+          </div>
+          <div class="premium-card">
+            <h3>🎓 برنامج التعليم</h3>
+            <p>دروس وفيديوهات تعليمية عن استخدام المنتجات</p>
+          </div>
+          <div class="premium-card">
+            <h3>🤝 برنامج الشراكة</h3>
+            <p>انضم كمتاجر وابدأ عملك الخاص معنا</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="section">
+      <h2 class="section-title">مقارنة الخطط</h2>
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>الخدمة</th>
+            <th>عضوية عادية</th>
+            <th>عضوية فضية</th>
+            <th>عضوية ذهبية <span class="badge">موصى به</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>شحن مجاني</strong></td>
+            <td>فوق 100 ريال</td>
+            <td>فوق 50 ريال</td>
+            <td class="check">✓ دائماً</td>
+          </tr>
+          <tr>
+            <td><strong>نسبة الخصم</strong></td>
+            <td>5%</td>
+            <td>10%</td>
+            <td>15%</td>
+          </tr>
+          <tr>
+            <td><strong>نقاط الولاء</strong></td>
+            <td>1% من المشتريات</td>
+            <td>2%</td>
+            <td>3%</td>
+          </tr>
+          <tr>
+            <td><strong>الدعم الأولويتي</strong></td>
+            <td class="cross">✗</td>
+            <td class="check">✓</td>
+            <td class="check">✓</td>
+          </tr>
+          <tr>
+            <td><strong>الإرجاع المجاني</strong></td>
+            <td>30 يوم</td>
+            <td>45 يوم</td>
+            <td>60 يوم</td>
+          </tr>
+          <tr>
+            <td><strong>عروض حصرية</strong></td>
+            <td class="cross">✗</td>
+            <td class="check">✓</td>
+            <td class="check">✓</td>
+          </tr>
+          <tr>
+            <td><strong>الرسائل النشرية</strong></td>
+            <td>عام</td>
+            <td>مخصصة</td>
+            <td>مخصصة جداً</td>
+          </tr>
+          <tr>
+            <td><strong>الهدايا السنوية</strong></td>
+            <td class="cross">✗</td>
+            <td class="cross">✗</td>
+            <td class="check">✓</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- CTA Section -->
+    <div class="cta-section">
+      <h2>هل أنت مستعد للانضمام؟</h2>
+      <p>ابدأ رحلتك معنا اليوم واستمتع بجميع هذه الخدمات الرائعة</p>
+      <button class="btn" onclick="window.location.href='/register'">إنشاء حساب</button>
+    </div>
+  </main>
+
+  <footer style="background: #f5f7fa; padding: 3rem 1rem; text-align: center; color: #666; margin-top: 4rem;">
+    <p>&copy; 2024 متجرك الإلكتروني. جميع الحقوق محفوظة.</p>
+  </footer>
+</body>
+</html>

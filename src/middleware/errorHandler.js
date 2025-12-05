@@ -33,6 +33,8 @@ exports.errorHandler = (err, req, res, next) => {
 // 404 Not Found middleware
 exports.notFound = (req, res, next) => {
   const error = new Error(`لم يتم العثور على المسار - ${req.originalUrl}`);
+  // attach a 404 status to the error so the error handler can use it
+  error.status = 404;
   res.status(404);
   next(error);
 };

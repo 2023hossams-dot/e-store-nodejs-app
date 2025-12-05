@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الدفع - متجرك الإلكتروني</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .checkout-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .checkout-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2rem;
+    }
+
+    .checkout-section {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      color: #333;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #667eea;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+
+    .radio-option input[type="radio"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .order-summary {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      height: fit-content;
+    }
+
+    .order-summary-title {
+      font-size: 1.3rem;
+      color: #333;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #667eea;
+    }
+
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .order-item-info {
+      flex: 1;
+    }
+
+    .order-item-name {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 0.25rem;
+    }
+
+    .order-item-qty {
+      color: #999;
+      font-size: 0.9rem;
+    }
+
+    .order-item-price {
+      font-weight: 700;
+      color: #667eea;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      font-size: 0.95rem;
+    }
+
+    .summary-row.total {
+      padding: 1rem 0;
+      margin-top: 1rem;
+      border-top: 2px solid #667eea;
+      border-bottom: 2px solid #667eea;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #667eea;
+    }
+
+    .coupon-section {
+      margin: 1.5rem 0;
+      padding: 1rem;
+      background: #f5f7fa;
+      border-radius: 5px;
+    }
+
+    .coupon-input {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .coupon-input input {
+      flex: 1;
+    }
+
+    .coupon-input button {
+      padding: 0.75rem 1rem;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn-checkout {
+      width: 100%;
+      padding: 1rem;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 1rem;
+    }
+
+    .btn-checkout:hover {
+      background: #764ba2;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-checkout:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .shipping-method {
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .shipping-method:hover {
+      border-color: #667eea;
+      background: #f5f7fa;
+    }
+
+    .shipping-method input[type="radio"]:checked + label {
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    .payment-method {
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .payment-method:hover {
+      border-color: #667eea;
+      background: #f5f7fa;
+    }
+
+    .payment-method input[type="radio"]:checked + label {
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    .payment-details {
+      display: none;
+      padding: 1rem;
+      background: #f5f7fa;
+      border-radius: 5px;
+      margin-top: 1rem;
+    }
+
+    .payment-details.active {
+      display: block;
+    }
+
+    .steps {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 2rem;
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .step-number {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #f5f7fa;
+      border: 2px solid #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #666;
+    }
+
+    .step-number.active {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+
+    .step-label {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    @media (max-width: 768px) {
+      .checkout-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .steps {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo">🛍️ متجرك الإلكتروني</div>
+        <ul class="nav-items">
+          <li><a href="/">الرئيسية</a></li>
+          <li><a href="/products">المنتجات</a></li>
+          <li><a href="/cart">السلة</a></li>
+          <li><a href="/account">حسابي</a></li>
+          <li><a href="/logout">خروج</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="checkout-container">
+    <h1>إتمام الطلب</h1>
+
+    <!-- Steps -->
+    <div class="steps">
+      <div class="step">
+        <div class="step-number active">1</div>
+        <div class="step-label">عنوان التسليم</div>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-label">طريقة الشحن</div>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-label">طريقة الدفع</div>
+      </div>
+      <div class="step">
+        <div class="step-number">4</div>
+        <div class="step-label">تأكيد الطلب</div>
+      </div>
+    </div>
+
+    <div class="checkout-grid">
+      <!-- Checkout Form -->
+      <div>
+        <!-- Shipping Address -->
+        <div class="checkout-section">
+          <h2 class="section-title">عنوان التسليم</h2>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>الاسم الأول</label>
+              <input type="text" required>
+            </div>
+            <div class="form-group">
+              <label>الاسم الأخير</label>
+              <input type="text" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>البريد الإلكتروني</label>
+            <input type="email" required>
+          </div>
+
+          <div class="form-group">
+            <label>رقم الهاتف</label>
+            <input type="tel" required>
+          </div>
+
+          <div class="form-group">
+            <label>العنوان الكامل</label>
+            <input type="text" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>المدينة</label>
+              <input type="text" required>
+            </div>
+            <div class="form-group">
+              <label>المنطقة</label>
+              <input type="text" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>الرمز البريدي</label>
+              <input type="text" required>
+            </div>
+            <div class="form-group">
+              <label>الدولة</label>
+              <select required>
+                <option>السعودية</option>
+                <option>الإمارات</option>
+                <option>الكويت</option>
+                <option>قطر</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shipping Method -->
+        <div class="checkout-section">
+          <h2 class="section-title">طريقة الشحن</h2>
+
+          <div class="shipping-method">
+            <label style="cursor: pointer;">
+              <input type="radio" name="shipping" value="standard" checked>
+              الشحن العادي - 5-7 أيام (مجاني)
+            </label>
+          </div>
+
+          <div class="shipping-method">
+            <label style="cursor: pointer;">
+              <input type="radio" name="shipping" value="express">
+              الشحن السريع - 2-3 أيام (50 ر.س)
+            </label>
+          </div>
+
+          <div class="shipping-method">
+            <label style="cursor: pointer;">
+              <input type="radio" name="shipping" value="overnight">
+              الشحن الفوري - في نفس اليوم (150 ر.س)
+            </label>
+          </div>
+        </div>
+
+        <!-- Payment Method -->
+        <div class="checkout-section">
+          <h2 class="section-title">طريقة الدفع</h2>
+
+          <div class="payment-method">
+            <label style="cursor: pointer;">
+              <input type="radio" name="payment" value="card" checked>
+              بطاقة ائتمان / خصم
+            </label>
+            <div class="payment-details active">
+              <div class="form-group">
+                <label>رقم البطاقة</label>
+                <input type="text" placeholder="0000 0000 0000 0000">
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>تاريخ الانتهاء</label>
+                  <input type="text" placeholder="MM/YY">
+                </div>
+                <div class="form-group">
+                  <label>CVV</label>
+                  <input type="text" placeholder="123">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="payment-method">
+            <label style="cursor: pointer;">
+              <input type="radio" name="payment" value="bank">
+              تحويل بنكي
+            </label>
+            <div class="payment-details">
+              <p>سيتم إرسال تفاصيل التحويل البنكي بعد تأكيد الطلب</p>
+            </div>
+          </div>
+
+          <div class="payment-method">
+            <label style="cursor: pointer;">
+              <input type="radio" name="payment" value="wallet">
+              المحفظة الرقمية
+            </label>
+            <div class="payment-details">
+              <p>الرصيد الحالي: 500 ر.س</p>
+            </div>
+          </div>
+
+          <div class="payment-method">
+            <label style="cursor: pointer;">
+              <input type="radio" name="payment" value="cod">
+              الدفع عند الاستلام
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="order-summary">
+        <h3 class="order-summary-title">ملخص الطلب</h3>
+
+        <div class="order-item">
+          <div class="order-item-info">
+            <div class="order-item-name">منتج 1</div>
+            <div class="order-item-qty">الكمية: 2</div>
+          </div>
+          <div class="order-item-price">500 ر.س</div>
+        </div>
+
+        <div class="order-item">
+          <div class="order-item-info">
+            <div class="order-item-name">منتج 2</div>
+            <div class="order-item-qty">الكمية: 1</div>
+          </div>
+          <div class="order-item-price">250 ر.س</div>
+        </div>
+
+        <div class="coupon-section">
+          <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">قسيمة خصم</label>
+          <div class="coupon-input">
+            <input type="text" placeholder="أدخل كود القسيمة">
+            <button onclick="applyCoupon()">تطبيق</button>
+          </div>
+        </div>
+
+        <div class="summary-row">
+          <span>السعر الفرعي:</span>
+          <span>750 ر.س</span>
+        </div>
+
+        <div class="summary-row">
+          <span>الشحن:</span>
+          <span id="shippingCost">مجاني</span>
+        </div>
+
+        <div class="summary-row">
+          <span>الضريبة (15%):</span>
+          <span>112.50 ر.س</span>
+        </div>
+
+        <div class="summary-row total">
+          <span>الإجمالي:</span>
+          <span id="totalPrice">862.50 ر.س</span>
+        </div>
+
+        <button class="btn-checkout" onclick="completeCheckout()">إتمام الشراء</button>
+
+        <p style="text-align: center; color: #999; font-size: 0.9rem; margin-top: 1rem;">
+          🔒 عملية دفع آمنة وموثوقة
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Update shipping cost
+    document.querySelectorAll('input[name="shipping"]').forEach(input => {
+      input.addEventListener('change', function() {
+        let cost = 'مجاني';
+        let amount = 0;
+        
+        if (this.value === 'express') {
+          cost = '50 ر.س';
+          amount = 50;
+        } else if (this.value === 'overnight') {
+          cost = '150 ر.س';
+          amount = 150;
+        }
+        
+        document.getElementById('shippingCost').textContent = cost;
+        updateTotal(amount);
+      });
+    });
+
+    function updateTotal(shippingAmount) {
+      const subtotal = 750;
+      const tax = (subtotal + shippingAmount) * 0.15;
+      const total = subtotal + shippingAmount + tax;
+      document.getElementById('totalPrice').textContent = total.toFixed(2) + ' ر.س';
+    }
+
+    // Update payment details visibility
+    document.querySelectorAll('input[name="payment"]').forEach(input => {
+      input.addEventListener('change', function() {
+        // Hide all details
+        document.querySelectorAll('.payment-details').forEach(detail => {
+          detail.classList.remove('active');
+        });
+        
+        // Show selected details
+        this.parentElement.nextElementSibling.classList.add('active');
+      });
+    });
+
+    function applyCoupon() {
+      alert('تم تطبيق القسيمة بنجاح!');
+    }
+
+    function completeCheckout() {
+      alert('تم استلام طلبك بنجاح! رقم الطلب: #123456');
+      // Redirect to order confirmation
+      // window.location.href = '/order-confirmation';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الأسئلة الشائعة - متجرك الإلكتروني</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .faq-container {
+      max-width: 900px;
+      margin: 3rem auto;
+      padding: 0 1rem;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .page-header h1 {
+      color: #333;
+      font-size: 2.5rem;
+      margin: 0 0 0.5rem;
+    }
+
+    .page-header p {
+      color: #666;
+      font-size: 1.1rem;
+    }
+
+    .search-box {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+      box-sizing: border-box;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    /* Category Tabs */
+    .category-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .category-tab {
+      padding: 0.75rem 1.5rem;
+      border: 2px solid #ddd;
+      background: white;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      color: #666;
+    }
+
+    .category-tab.active {
+      background: #667eea;
+      border-color: #667eea;
+      color: white;
+    }
+
+    .category-tab:hover {
+      border-color: #667eea;
+      color: #667eea;
+    }
+
+    /* FAQ Items */
+    .faq-section {
+      margin-bottom: 3rem;
+    }
+
+    .faq-section.hidden {
+      display: none;
+    }
+
+    .faq-category-title {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #667eea;
+    }
+
+    .faq-items {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .faq-item {
+      background: white;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .faq-item:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .faq-question {
+      padding: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      user-select: none;
+      transition: background-color 0.3s;
+    }
+
+    .faq-question:hover {
+      background: #f5f7fa;
+    }
+
+    .question-text {
+      flex: 1;
+      font-weight: 600;
+      color: #333;
+      font-size: 1rem;
+    }
+
+    .faq-toggle {
+      font-size: 1.5rem;
+      color: #667eea;
+      transition: transform 0.3s;
+      flex-shrink: 0;
+    }
+
+    .faq-item.active .faq-toggle {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      background: #f5f7fa;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 500px;
+    }
+
+    .answer-content {
+      padding: 1.5rem;
+      color: #666;
+      line-height: 1.8;
+    }
+
+    .answer-content p {
+      margin: 0 0 1rem;
+    }
+
+    .answer-content ul {
+      margin: 1rem 0;
+      padding-right: 2rem;
+    }
+
+    .answer-content li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Contact Card */
+    .contact-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    .contact-card h3 {
+      margin: 0 0 1rem;
+      font-size: 1.5rem;
+    }
+
+    .contact-card p {
+      margin: 0.5rem 0;
+    }
+
+    .contact-card a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .contact-card a:hover {
+      text-decoration: underline;
+    }
+
+    .btn-contact {
+      display: inline-block;
+      background: white;
+      color: #667eea;
+      padding: 0.75rem 2rem;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 1rem;
+      transition: all 0.3s;
+    }
+
+    .btn-contact:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (max-width: 768px) {
+      .page-header h1 {
+        font-size: 1.8rem;
+      }
+
+      .faq-question {
+        padding: 1rem;
+      }
+
+      .question-text {
+        font-size: 0.95rem;
+      }
+
+      .category-tabs {
+        justify-content: center;
+      }
+
+      .category-tab {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo">🛍️ متجرك الإلكتروني</div>
+        <ul class="nav-items">
+          <li><a href="/">الرئيسية</a></li>
+          <li><a href="/products">المنتجات</a></li>
+          <li><a href="/cart">السلة</a></li>
+          <li><a href="/account">حسابي</a></li>
+          <li><a href="/logout">خروج</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="faq-container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1>الأسئلة الشائعة</h1>
+      <p>احصل على إجابات لأسئلتك الشائعة حول متجرنا وخدماتنا</p>
+    </div>
+
+    <!-- Search Box -->
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="ابحث عن سؤالك..." onkeyup="searchFAQ()">
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="category-tabs">
+      <button class="category-tab active" onclick="filterCategory('all')">الكل</button>
+      <button class="category-tab" onclick="filterCategory('account')">الحساب</button>
+      <button class="category-tab" onclick="filterCategory('products')">المنتجات</button>
+      <button class="category-tab" onclick="filterCategory('orders')">الطلبات</button>
+      <button class="category-tab" onclick="filterCategory('payment')">الدفع</button>
+      <button class="category-tab" onclick="filterCategory('shipping')">الشحن</button>
+      <button class="category-tab" onclick="filterCategory('return')">الإرجاع</button>
+    </div>
+
+    <!-- FAQ Sections -->
+    
+    <!-- Account Section -->
+    <section class="faq-section active" data-category="account">
+      <h2 class="faq-category-title">💳 الحساب</h2>
+      <div class="faq-items">
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span class="question-text">كيف أنشئ حساباً جديداً؟</span>
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="answer-content">
+              <p>يمكنك إنشاء حساب بسهولة باتباع هذه الخطوات:</p>
+              <ul>
+                <li>اضغط على رابط "التسجيل" في الصفحة الرئيسية</li>
+                <li>أدخل بريدك الإلكتروني واسمك الكامل</li>
+                <li>أنشئ كلمة مرور قوية</li>
+                <li>وافق على شروط الخدمة</li>
+                <li>أكد بريدك الإلكتروني عبر الرابط المرسل</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span class="question-text">نسيت كلمة مروري، ماذا أفعل؟</span>
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="answer-content">
+              <p>إذا نسيت كلمة مرورك، اتبع هذه الخطوات:</p>
+              <ul>
+                <li>اذهب إلى صفحة تسجيل الدخول</li>
+                <li>اضغط على "نسيت كلمة المرور"</li>
+                <li>أدخل بريدك الإلكتروني</li>
+                <li>ستتلقى رسالة بريد إلكتروني برابط إعادة تعيين</li>
+                <li>اتبع الرابط وأنشئ كلمة مرور جديدة</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span class="question-text">كيف أحدث بيانات حسابي؟</span>
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="answer-content">
+              <p>يمكنك تحديث بيانات حسابك من خلال:</p>
+              <ul>
+                <li>انقر على "حسابي" من القائمة العلوية</li>
+                <li>اختر "تعديل الملف الشخصي"</li>
+                <li>عدّل البيانات المطلوبة</li>
+                <li>اضغط على "حفظ التغييرات"</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span class="question-text">كيف أحذف حسابي؟</span>
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="answer-content">
+              <p>لحذف حسابك نهائياً:</p>
+              <ul>
+                <li>انقر على "إعدادات" في حسابك</li>
+                <li>اختر "حذف الحساب" في الأسفل</li>
+                <li>أكد عملية الحذف (لا يمكن الرجوع عنها)</li>
+              </ul>
+              <p>ملاحظة: سيتم حذف جميع بيانتك الشخصية</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="faq-section hidden" data-category="products">
+      <h2 class="faq-category-title">🛍️ المنتجات</h2>
+      <div class="faq-items">
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span class="question-text">هل المنتجات أصلية 100%؟</span>
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="answer-content">
+              <p>نعم، جميع المنتجات في متجرنا أصلية وموثقة من الشركات المصنعة مباشرة. نتعاون فقط مع الموزعين المرخصين والعلامات التجارية المعروفة.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span class="question-text">كيف أختار الحجم المناسب؟</span>
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="answer-content">
+              <p>كل منتج يحتوي على جدول قياسات مفصل. يمكنك أيضاً:</p>
+              <ul>
+                <li>قراءة تقييمات العملاء للمنتج</li>
+                <li>الاطلاع على صور المنتج من زوايا مختلفة</li>
+                <li>التواصل مع فريق الدعم للمساعدة</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span class="question-text">هل يمكن مقارنة المنتجات؟</span>
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="answer-content">
+              <p>نعم، يمكنك مقارنة حتى 4 منتجات معاً. اضغط على زر "مقارنة" في صفحة كل منتج، وستظهر جميع المنتجات المختارة في جدول مقارنة شامل.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Orders Section -->
+    <section class="faq-section hidden" data-category="orders">
+      <h2 class="faq-category-title">📦 الطلبات</h2>
+      <div class="faq-items">
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span class="question-text">كم الحد الأدنى للطلب؟</span>
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="answer-content">
+              <p>لا يوجد حد أدنى للطلب! يمكنك شراء منتج واحد فقط إذا أردت. سيتم حساب رسوم الشحن بناءً على الوزن والمنطقة الجغرافية.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span class="question-text">كيف أتتبع طلبي؟</span>
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="answer-content">
+              <p>يمكنك تتبع طلبك من خلال:</p>
+              <ul>
+                <li>دخول حسابك واختيار "طلباتي"</li>
+                <li>البحث برقم الطلب</li>
+                <li>استقبال إشعارات عبر البريد الإلكتروني والرسائل النصية</li>
+                <li>التواصل مع الدعم لأي استفسار</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span class="question-text">هل يمكن إلغاء الطلب بعد تأكيده؟</span>
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="answer-content">
+              <p>يمكن إلغاء الطلب قبل الشحن مباشرة. بعد الشحن، لا يمكن الإلغاء لكن يمكن الإرجاع خلال 30 يوماً. تواصل مع الدعم فوراً في حالة الإلغاء.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span class="question-text">ماذا لو كان الطلب مفقوداً أو تضرر؟</span>
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="answer-content">
+              <p>تواصل معنا فوراً مع صور توضيحية. سنقوم بـ:</p>
+              <ul>
+                <li>التحقق من الضرر أو الفقدان</li>
+                <li>استرجاع كامل المبلغ أو بدل المنتج</li>
+                <li>تغطية تكاليف الإرسال</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Payment Section -->
+    <section class="faq-section hidden" data-category="payment">
+      <h2 class="faq-category-title">💰 الدفع</h2>
+      <div class="faq-items">
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span class="question-text">ما هي طرق الدفع المتاحة؟</span>
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="answer-content">
+              <p>نقبل جميع طرق الدفع الآتية:</p>
+              <ul>
+                <li>بطاقات الائتمان والخصم (Visa, MasterCard, AmEx)</li>
+                <li>التحويل البنكي</li>
+                <li>المحافظ الرقمية (Apple Pay, Google Pay)</li>
+                <li>الدفع عند الاستلام (COD)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span class="question-text">هل الموقع آمن للدفع بالبطاقة؟</span>
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="answer-content">
+              <p>نعم، موقعنا آمن تماماً! نستخدم:</p>
+              <ul>
+                <li>تشفير SSL 256-بت</li>
+                <li>شهادات أمان دولية (PCI DSS)</li>
+                <li>بوابات دفع آمنة موثوقة</li>
+                <li>عدم تخزين بيانات البطاقة لديك</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span class="question-text">هل يتم فرض رسوم إضافية على الدفع؟</span>
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="answer-content">
+              <p>لا، السعر الذي تراه يتضمن جميع الرسوم والضرائب. لا توجد رسوم إضافية مخفية.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Shipping Section -->
+    <section class="faq-section hidden" data-category="shipping">
+      <h2 class="faq-category-title">🚚 الشحن</h2>
+      <div class="faq-items">
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span class="question-text">ما هي خيارات الشحن المتاحة؟</span>
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="answer-content">
+              <p>نوفر ثلاث خيارات للشحن:</p>
+              <ul>
+                <li><strong>الشحن السريع:</strong> 1-2 يوم عمل</li>
+                <li><strong>الشحن العادي:</strong> 3-5 أيام عمل</li>
+                <li><strong>الشحن الاقتصادي:</strong> 7-10 أيام عمل</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span class="question-text">كم تكلفة الشحن؟</span>
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="answer-content">
+              <p>رسوم الشحن تختلف حسب:</p>
+              <ul>
+                <li>الوزن الإجمالي للطلب</li>
+                <li>المنطقة الجغرافية</li>
+                <li>نوع الشحن المختار</li>
+              </ul>
+              <p>يتم عرض رسوم الشحن قبل تأكيد الطلب.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span class="question-text">هل توفرون شحن مجاني؟</span>
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="answer-content">
+              <p>نعم! نوفر شحن مجاني في الحالات الآتية:</p>
+              <ul>
+                <li>طلبات فوق 200 ريال سعودي</li>
+                <li>المشتركون في برنامج الولاء</li>
+                <li>عروض وتخفيضات موسمية</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Return Section -->
+    <section class="faq-section hidden" data-category="return">
+      <h2 class="faq-category-title">↩️ الإرجاع والاسترجاع</h2>
+      <div class="faq-items">
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span class="question-text">كم مدة سياسة الإرجاع؟</span>
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="answer-content">
+              <p>يمكنك إرجاع المنتجات خلال 30 يوماً من تاريخ استلام الطلب بدون أسباب.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span class="question-text">ما شروط الإرجاع؟</span>
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="answer-content">
+              <ul>
+                <li>المنتج لم يستخدم أو في حالة جديدة</li>
+                <li>جميع الملصقات والوسوم موجودة</li>
+                <li>التغليف الأصلي سليم</li>
+                <li>الفاتورة الأصلية متوفرة</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span class="question-text">كيف أرجع منتجاً؟</span>
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="answer-content">
+              <p>خطوات الإرجاع:</p>
+              <ul>
+                <li>تواصل مع الدعم واطلب رقم عودة</li>
+                <li>ضع المنتج في الصندوق الأصلي</li>
+                <li>أرسله برسالة مسجلة مع رقم العودة</li>
+                <li>ستتلقى تأكيد استلام واسترجاع المبلغ</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            <span class="question-text">متى سأحصل على المبلغ المسترجع؟</span>
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            <div class="answer-content">
+              <p>يتم استرجاع المبلغ خلال 5-7 أيام عمل بعد التحقق من المنتج. سيتم الإيداع في نفس وسيلة الدفع الأصلية.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Card -->
+    <div class="contact-card">
+      <h3>لم تجد إجابتك؟</h3>
+      <p>تواصل معنا مباشرة</p>
+      <p>📧 support@example.com | 📞 +966 (1) 2345-6789</p>
+      <a href="/contact" class="btn-contact">اتصل بنا</a>
+    </div>
+  </main>
+
+  <script>
+    function toggleFAQ(element) {
+      const item = element.parentElement;
+      item.classList.toggle('active');
+    }
+
+    function filterCategory(category) {
+      const sections = document.querySelectorAll('.faq-section');
+      const tabs = document.querySelectorAll('.category-tab');
+
+      tabs.forEach(tab => tab.classList.remove('active'));
+      event.target.classList.add('active');
+
+      sections.forEach(section => {
+        if (category === 'all' || section.getAttribute('data-category') === category) {
+          section.classList.remove('hidden');
+        } else {
+          section.classList.add('hidden');
+        }
+      });
+    }
+
+    function searchFAQ() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const items = document.querySelectorAll('.faq-item');
+
+      items.forEach(item => {
+        const questionText = item.querySelector('.question-text').textContent.toLowerCase();
+        const answerText = item.querySelector('.answer-content').textContent.toLowerCase();
+
+        if (questionText.includes(searchTerm) || answerText.includes(searchTerm)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

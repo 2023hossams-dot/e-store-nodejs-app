@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نتائج البحث - متجرك الإلكتروني</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .search-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .search-header {
+      margin-bottom: 2rem;
+    }
+
+    .search-header h1 {
+      margin: 0;
+      color: #333;
+    }
+
+    .search-info {
+      color: #666;
+      font-size: 0.95rem;
+      margin-top: 0.5rem;
+    }
+
+    .search-results-grid {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .filters-sidebar {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      height: fit-content;
+    }
+
+    .filter-group {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    .filter-group:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .filter-title {
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    .filter-option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      cursor: pointer;
+    }
+
+    .filter-option input[type="checkbox"] {
+      cursor: pointer;
+      width: 18px;
+      height: 18px;
+    }
+
+    .filter-option label {
+      cursor: pointer;
+      flex: 1;
+      margin: 0;
+    }
+
+    .filter-option .count {
+      color: #999;
+      font-size: 0.85rem;
+    }
+
+    .price-range {
+      margin-top: 1rem;
+    }
+
+    .price-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .price-inputs input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    .sort-options {
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .sort-options select {
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .view-options {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .view-btn {
+      padding: 0.5rem;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .view-btn.active {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+
+    .products-section {
+      flex: 1;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .product-card {
+      background: white;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: translateY(-5px);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 200px;
+      background: #f5f7fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      position: relative;
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #f44336;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .product-info {
+      padding: 1rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-name {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 0.5rem;
+      flex: 1;
+    }
+
+    .product-rating {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      color: #ffc107;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-price {
+      color: #667eea;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .original-price {
+      color: #999;
+      text-decoration: line-through;
+      font-size: 0.9rem;
+      margin-left: 0.5rem;
+    }
+
+    .product-action {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn-small {
+      flex: 1;
+      padding: 0.5rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+
+    .btn-add {
+      background: #667eea;
+      color: white;
+    }
+
+    .btn-add:hover {
+      background: #764ba2;
+    }
+
+    .btn-wishlist {
+      background: white;
+      border: 1px solid #ddd;
+      color: #667eea;
+    }
+
+    .btn-wishlist:hover {
+      background: #f5f7fa;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #999;
+    }
+
+    .no-results-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 2rem;
+    }
+
+    .pagination button {
+      padding: 0.5rem 0.75rem;
+      border: 1px solid #ddd;
+      background: white;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.3s;
+    }
+
+    .pagination button.active {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+
+    .pagination button:hover {
+      border-color: #667eea;
+    }
+
+    .filter-mobile-toggle {
+      display: none;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .search-results-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .filters-sidebar {
+        display: none;
+      }
+
+      .filter-mobile-toggle {
+        display: block;
+      }
+
+      .filters-sidebar.active {
+        display: block;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+        background: white;
+        border-radius: 0;
+        overflow-y: auto;
+      }
+
+      .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+
+      .sort-options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo">🛍️ متجرك الإلكتروني</div>
+        <ul class="nav-items">
+          <li><a href="/">الرئيسية</a></li>
+          <li><a href="/products">المنتجات</a></li>
+          <li><a href="/cart">السلة</a></li>
+          <li><a href="/account">حسابي</a></li>
+          <li><a href="/logout">خروج</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="search-container">
+    <div class="search-header">
+      <h1>نتائج البحث عن "قمصان"</h1>
+      <p class="search-info">وجدنا 45 منتج مطابق لبحثك</p>
+    </div>
+
+    <div class="sort-options">
+      <div>
+        <label>ترتيب حسب:</label>
+        <select>
+          <option>الأحدث</option>
+          <option>السعر: من الأقل للأعلى</option>
+          <option>السعر: من الأعلى للأقل</option>
+          <option>الأكثر مبيعاً</option>
+          <option>الأعلى تقييماً</option>
+        </select>
+      </div>
+      <div class="view-options">
+        <button class="view-btn active" onclick="setViewMode('grid')">⊞</button>
+        <button class="view-btn" onclick="setViewMode('list')">≡</button>
+      </div>
+    </div>
+
+    <div class="search-results-grid">
+      <!-- Filters Sidebar -->
+      <aside class="filters-sidebar">
+        <div class="filter-group">
+          <div class="filter-title">التصنيف</div>
+          <div class="filter-option">
+            <input type="checkbox" id="cat1" checked>
+            <label for="cat1">رجالي</label>
+            <span class="count">(25)</span>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="cat2">
+            <label for="cat2">نسائي</label>
+            <span class="count">(15)</span>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="cat3">
+            <label for="cat3">أطفال</label>
+            <span class="count">(5)</span>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-title">السعر</div>
+          <div class="price-range">
+            <div class="price-inputs">
+              <input type="number" placeholder="من" min="0" value="0">
+              <input type="number" placeholder="إلى" max="10000" value="1000">
+            </div>
+            <button class="btn-small btn-add" style="margin-top: 0.75rem; width: 100%;">تطبيق</button>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-title">الحجم</div>
+          <div class="filter-option">
+            <input type="checkbox" id="size1">
+            <label for="size1">XS</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="size2">
+            <label for="size2">S</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="size3" checked>
+            <label for="size3">M</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="size4">
+            <label for="size4">L</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="size5">
+            <label for="size5">XL</label>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-title">اللون</div>
+          <div class="filter-option">
+            <input type="checkbox" id="color1">
+            <label for="color1">أسود</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="color2">
+            <label for="color2">أبيض</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="color3">
+            <label for="color3">أزرق</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="color4">
+            <label for="color4">أحمر</label>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-title">التقييم</div>
+          <div class="filter-option">
+            <input type="checkbox" id="rating1">
+            <label for="rating1">★★★★★</label>
+            <span class="count">(10)</span>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="rating2">
+            <label for="rating2">★★★★☆</label>
+            <span class="count">(20)</span>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="rating3">
+            <label for="rating3">★★★☆☆</label>
+            <span class="count">(10)</span>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="rating4">
+            <label for="rating4">★★☆☆☆</label>
+            <span class="count">(5)</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Products Grid -->
+      <div class="products-section">
+        <div class="products-grid" id="productsGrid">
+          <!-- Product Card 1 -->
+          <div class="product-card">
+            <div class="product-image">
+              <img src="" alt="">
+              <span class="product-badge">-20%</span>
+            </div>
+            <div class="product-info">
+              <div class="product-name">قميص قطني فاخر</div>
+              <div class="product-rating">
+                ★★★★★ <span>(125)</span>
+              </div>
+              <div class="product-price">
+                99 ر.س <span class="original-price">125 ر.س</span>
+              </div>
+              <div class="product-action">
+                <button class="btn-small btn-add">إضافة</button>
+                <button class="btn-small btn-wishlist">❤</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Card 2 -->
+          <div class="product-card">
+            <div class="product-image">
+              <img src="" alt="">
+            </div>
+            <div class="product-info">
+              <div class="product-name">قميص جينز أنيق</div>
+              <div class="product-rating">
+                ★★★★☆ <span>(89)</span>
+              </div>
+              <div class="product-price">
+                149 ر.س
+              </div>
+              <div class="product-action">
+                <button class="btn-small btn-add">إضافة</button>
+                <button class="btn-small btn-wishlist">❤</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Card 3 -->
+          <div class="product-card">
+            <div class="product-image">
+              <img src="" alt="">
+              <span class="product-badge">-15%</span>
+            </div>
+            <div class="product-info">
+              <div class="product-name">قميص حرير كلاسيكي</div>
+              <div class="product-rating">
+                ★★★★★ <span>(156)</span>
+              </div>
+              <div class="product-price">
+                199 ر.س <span class="original-price">235 ر.س</span>
+              </div>
+              <div class="product-action">
+                <button class="btn-small btn-add">إضافة</button>
+                <button class="btn-small btn-wishlist">❤</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Card 4 -->
+          <div class="product-card">
+            <div class="product-image">
+              <img src="" alt="">
+            </div>
+            <div class="product-info">
+              <div class="product-name">قميص عادي مريح</div>
+              <div class="product-rating">
+                ★★★★☆ <span>(74)</span>
+              </div>
+              <div class="product-price">
+                69 ر.س
+              </div>
+              <div class="product-action">
+                <button class="btn-small btn-add">إضافة</button>
+                <button class="btn-small btn-wishlist">❤</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+          <button onclick="goToPage(1)">← السابق</button>
+          <button class="active" onclick="goToPage(1)">1</button>
+          <button onclick="goToPage(2)">2</button>
+          <button onclick="goToPage(3)">3</button>
+          <button onclick="goToPage(4)">4</button>
+          <button onclick="goToPage(2)">التالي →</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function setViewMode(mode) {
+      const grid = document.getElementById('productsGrid');
+      const buttons = document.querySelectorAll('.view-btn');
+      
+      buttons.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      if (mode === 'list') {
+        grid.style.gridTemplateColumns = '1fr';
+      } else {
+        grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(200px, 1fr))';
+      }
+    }
+
+    function goToPage(page) {
+      alert(`الانتقال للصفحة ${page}`);
+    }
+  </script>
+</body>
+</html>
