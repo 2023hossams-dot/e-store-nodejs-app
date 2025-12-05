@@ -275,6 +275,46 @@ app.get('/search', (req, res) => {
   });
 });
 
+// About page
+app.get('/about', (req, res) => {
+  res.render('about', {
+    title: 'من نحن - متجرك الإلكتروني',
+    user: req.session.user || null
+  });
+});
+
+// Contact page
+app.get('/contact', (req, res) => {
+  res.render('contact', {
+    title: 'اتصل بنا - متجرك الإلكتروني',
+    user: req.session.user || null
+  });
+});
+
+// FAQ page
+app.get('/faq', (req, res) => {
+  res.render('faq', {
+    title: 'الأسئلة الشائعة - متجرك الإلكتروني',
+    user: req.session.user || null
+  });
+});
+
+// Privacy Policy page
+app.get('/privacy', (req, res) => {
+  res.render('privacy', {
+    title: 'سياسة الخصوصية - متجرك الإلكتروني',
+    user: req.session.user || null
+  });
+});
+
+// Terms and Conditions page
+app.get('/terms', (req, res) => {
+  res.render('terms', {
+    title: 'شروط الخدمة - متجرك الإلكتروني',
+    user: req.session.user || null
+  });
+});
+
 // Admin Login page
 app.get('/admin/login', (req, res) => {
   res.sendFile(path.join(__dirname, '../views/admin-login.html'));
