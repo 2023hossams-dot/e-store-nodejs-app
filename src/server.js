@@ -5,6 +5,7 @@ const cors = require('cors');
 const path = require('path');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
 
 // Middleware imports
 const { generalLimiter } = require('./middleware/rateLimiter');
@@ -19,9 +20,12 @@ const {
   notFound, 
   handleValidationErrors 
 } = require('./middleware/errorHandler');
+const initializeAdmin = require('./config/adminInit');
+const connectDB = require('./config/database');
 
 // Routes imports
 const authRoutes = require('./routes/authRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const cartRoutes = require('./routes/cartRoutes');
@@ -33,24 +37,13 @@ const wishlistRoutes = require('./routes/wishlistRoutes');
 const app = express();
 
 // ==================== DATABASE CONNECTION ====================
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
-    console.log('✓ MongoDB متصل بنجاح');
-  } catch (error) {
-    console.error('✗ خطأ في الاتصال بـ MongoDB:', error.message);
-    process.exit(1);
-  }
-};
-
+// Connect to DB (will skip if MONGODB_URI is not set)
 connectDB();
 
 // ==================== MIDDLEWARE ====================
 
 // Security headers
+app.use(helmet());
 app.use(corsHeaders);
 app.use(securityHeaders);
 
@@ -102,6 +95,7 @@ app.get('/api/health', (req, res) => {
 
 // API Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/cart', cartRoutes);
@@ -119,9 +113,17 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.set('view engine', 'html');
 app.engine('html', (filepath, options, callback) => {
   const fs = require('fs');
-  fs.readFile(filepath, (err, data) => {
-    if (err) return callback(err);
-    return callback(null, data.toString());
+  fs.readFile(filepath, 'utf8', (err, data) => {
+    if (err) {
+      console.error(`[${new Date().toISOString()}] View engine error reading ${filepath}:`, err.message);
+      return callback(new Error(`Failed to render view ${filepath}: ${err.message}`));
+    }
+    try {
+      return callback(null, data);
+    } catch (e) {
+      console.error(`[${new Date().toISOString()}] View engine callback error:`, e.message);
+      return callback(e);
+    }
   });
 });
 app.set('views', path.join(__dirname, '../views'));
@@ -147,6 +149,15 @@ app.get('/products/:slug', (req, res) => {
   res.render('product-details', { 
     title: 'تفاصيل المنتج',
     slug: req.params.slug,
+    user: req.session.user || null
+  });
+});
+
+// Backward-compatible route: some links use `/product-details`
+app.get('/product-details', (req, res) => {
+  res.render('product-details', {
+    title: 'تفاصيل المنتج',
+    slug: req.query.slug || null,
     user: req.session.user || null
   });
 });
@@ -199,6 +210,76 @@ app.get('/orders', (req, res) => {
   });
 });
 
+// Additional pages (services, partnership, loyalty, learning, digital, support)
+app.get('/services', (req, res) => {
+  res.render('services', {
+    title: 'الخدمات - متجرك الإلكتروني',
+    user: req.session.user || null
+  });
+});
+
+app.get('/partnership', (req, res) => {
+  res.render('partnership', {
+    title: 'الشراكة والتعاون - متجرك الإلكتروني',
+    user: req.session.user || null
+  });
+});
+
+app.get('/loyalty', (req, res) => {
+  res.render('loyalty', {
+    title: 'برنامج الولاء - متجرك الإلكتروني',
+    user: req.session.user || null
+  });
+});
+
+app.get('/learning', (req, res) => {
+  res.render('learning', {
+    title: 'الموارد التعليمية - متجرك الإلكتروني',
+    user: req.session.user || null
+  });
+});
+
+app.get('/digital', (req, res) => {
+  res.render('digital', {
+    title: 'المنتجات الرقمية - متجرك الإلكتروني',
+    user: req.session.user || null
+  });
+});
+
+app.get('/support', (req, res) => {
+  res.render('support', {
+    title: 'خدمة العملاء والدعم',
+    user: req.session.user || null
+  });
+});
+
+// Wishlist, Categories, Search Results
+app.get('/wishlist', (req, res) => {
+  res.render('wishlist', {
+    title: 'قائمة الرغبات',
+    user: req.session.user || null
+  });
+});
+
+app.get('/categories', (req, res) => {
+  res.render('categories', {
+    title: 'الفئات',
+    user: req.session.user || null
+  });
+});
+
+app.get('/search', (req, res) => {
+  res.render('search-results', {
+    title: 'نتائج البحث',
+    user: req.session.user || null
+  });
+});
+
+// Admin Login page
+app.get('/admin/login', (req, res) => {
+  res.sendFile(path.join(__dirname, '../views/admin-login.html'));
+});
+
 // ==================== ERROR HANDLING ====================
 
 // 404 Not Found
@@ -209,28 +290,53 @@ app.use(errorHandler);
 
 // ==================== SERVER START ====================
 
-const PORT = process.env.PORT || 3000;
+const DESIRED_PORT = parseInt(process.env.PORT, 10) || 3000;
+let server = null;
 
-const server = app.listen(PORT, () => {
-  console.log('\n' + '='.repeat(50));
-  console.log('🚀 متجرك الإلكتروني');
-  console.log('='.repeat(50));
-  console.log(`✓ Server يعمل على: http://localhost:${PORT}`);
-  console.log(`✓ البيئة: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`✓ قاعدة البيانات: ${process.env.MONGODB_URI}`);
-  console.log('='.repeat(50) + '\n');
-});
+const startServer = (port, attemptsLeft = 10) => {
+  server = app.listen(port);
+
+  server.on('listening', () => {
+    console.log('\n' + '='.repeat(50));
+    console.log('🚀 متجرك الإلكتروني');
+    console.log('='.repeat(50));
+    console.log(`✓ Server يعمل على: http://localhost:${port}`);
+    console.log(`✓ البيئة: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`✓ قاعدة البيانات: ${process.env.MONGODB_URI || 'not configured'}`);
+    console.log('='.repeat(50) + '\n');
+  });
+
+  server.on('error', (err) => {
+    if (err && err.code === 'EADDRINUSE' && attemptsLeft > 0) {
+      console.warn(`⚠️  المنفذ ${port} مستخدم، المحاولة على المنفذ ${port + 1}...`);
+      setTimeout(() => startServer(port + 1, attemptsLeft - 1), 300);
+    } else {
+      console.error('✗ خطأ في بدء الخادم:', err);
+      process.exit(1);
+    }
+  });
+};
+
+startServer(DESIRED_PORT, 10);
 
 // Graceful shutdown
-process.on('SIGTERM', () => {
+process.on('SIGTERM', async () => {
   console.log('SIGTERM received. Shutting down gracefully...');
-  server.close(() => {
-    console.log('Server closed');
-    mongoose.connection.close(false, () => {
-      console.log('MongoDB connection closed');
-      process.exit(0);
+  if (server) {
+    server.close(async () => {
+      console.log('Server closed');
+      try {
+        await mongoose.connection.close();
+        console.log('MongoDB connection closed');
+        process.exit(0);
+      } catch (error) {
+        console.error('Error closing MongoDB connection:', error);
+        process.exit(1);
+      }
     });
-  });
+  } else {
+    process.exit(0);
+  }
 });
 
 module.exports = app;
